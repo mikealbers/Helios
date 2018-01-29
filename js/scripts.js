@@ -51,29 +51,45 @@ function Player(xCoord, yCoord) {
 var player1 = new Player(18,40);
 
 Player.prototype.move = function(way) {
-  //get current spot
+  //collision detection
+
   this.currentSpot = passConvertCoordinates(this.xCoord,this.yCoord);
   if (way == "left") {
     this.nextSpot = passConvertCoordinates(this.xCoord-1,this.yCoord);
-    this.xCoord = this.xCoord-1;
   }
-  if (way == "up") {this.nextSpot = passConvertCoordinates(
-    this.xCoord,this.yCoord-1);
-    this.yCoord = this.yCoord-1;
+  if (way == "up") {
+    this.nextSpot = passConvertCoordinates(this.xCoord,this.yCoord-1);
   }
   if (way == "right") {this.nextSpot = passConvertCoordinates(
     this.xCoord+1,this.yCoord);
-    this.xCoord = this.xCoord+1;    
+
   }
   if (way == "down") {this.nextSpot = passConvertCoordinates(
     this.xCoord,this.yCoord+1);
-    this.yCoord = this.yCoord+1;
   }
-  map1Layout = map1Layout.replaceAt(this.currentSpot, "_");
-  map1Layout = map1Layout.replaceAt(this.nextSpot, "8");
-  this.currentSpot = this.nextSpot;
-  this.nextSpot = "";
-  return this.currentSpot;
+
+  if (map1Layout.charAt(this.nextSpot) !== "_") {
+    this.nextSpot = "";
+  }
+  else {
+    if (way == "left") {
+      this.xCoord = this.xCoord-1;
+    }
+    if (way == "up") {
+      this.yCoord = this.yCoord-1;
+    }
+    if (way == "right") {
+      this.xCoord = this.xCoord+1;
+    }
+    if (way == "down") {
+      this.yCoord = this.yCoord+1;
+    }
+    map1Layout = map1Layout.replaceAt(this.currentSpot, "_");
+    map1Layout = map1Layout.replaceAt(this.nextSpot, "8");
+    this.currentSpot = this.nextSpot;
+    this.nextSpot = "";
+    return this.currentSpot;
+  }
 }
 
 String.prototype.replaceAt=function(index, replacement) {
