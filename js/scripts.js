@@ -44,9 +44,28 @@ var map1Layout = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'+
 function Player(xCoord, yCoord) {
   this.xCoord = xCoord;
   this.yCoord = yCoord;
+  this.currentSpot = 2018;
+  this.nextSpot = "";
 }
 
+//pass the coordinates to the converter to get the actual spot
+//then we will pass the corodinates on all 4 sides and check if they are valid spots
+//if they are valid spots then move that symbol to that spot and remove its old spot
+
 var player1 = new Player(18,40);
+
+
+Player.prototype.move = function(way) {
+  //get current spot
+  this.currentSpot = passConvertCoordinates(this.xCoord,this.yCoord);
+
+  if (way == "left") {this.nextSpot = passConvertCoordinates(this.xCoord-1,this.yCoord)}
+  if (way == "top") {this.nextSpot = passConvertCoordinates(this.xCoord,this.yCoord+1)}
+  if (way == "right") {this.nextSpot = passConvertCoordinates(this.xCoord+1,this.yCoord)}
+  if (way == "bottom") {this.nextSpot = passConvertCoordinates(this.xCoord,this.yCoord-1)}
+}
+
+
 console.log(player1);
 
 function drawScreen() {
@@ -82,16 +101,27 @@ Game.run = function() {
   drawScreen();
 };
 
-
+$(document).keydown(function(e){
+    if (e.keyCode == 37) {
+       player1.move("left");
+       return false;
+    }
+    if (e.keyCode == 38) {
+       player1.move("up");
+       return false;
+    }
+    if (e.keyCode == 39) {
+       player1.move("right");
+       return false;
+    }
+    if (e.keyCode == 40) {
+       player1.move("down");
+       return false;
+    }
+});
 
 $(document).ready(function() {
 
-  $(".test").append(map1Layout.charAt(passConvertCoordinates(18,40)));
-
   Game._intervalId = setInterval(Game.run, 1000 / Game.fps);
-  //setInterval(onTimerTick, 33); // 33 milliseconds = ~ 30 frames per sec
 
-  // function onTimerTick() {
-  //   drawScreen();
-  // }
 })
