@@ -48,25 +48,37 @@ function Player(xCoord, yCoord) {
   this.nextSpot = "";
 }
 
-//pass the coordinates to the converter to get the actual spot
-//then we will pass the corodinates on all 4 sides and check if they are valid spots
-//if they are valid spots then move that symbol to that spot and remove its old spot
-
 var player1 = new Player(18,40);
-
 
 Player.prototype.move = function(way) {
   //get current spot
   this.currentSpot = passConvertCoordinates(this.xCoord,this.yCoord);
-
-  if (way == "left") {this.nextSpot = passConvertCoordinates(this.xCoord-1,this.yCoord)}
-  if (way == "top") {this.nextSpot = passConvertCoordinates(this.xCoord,this.yCoord+1)}
-  if (way == "right") {this.nextSpot = passConvertCoordinates(this.xCoord+1,this.yCoord)}
-  if (way == "bottom") {this.nextSpot = passConvertCoordinates(this.xCoord,this.yCoord-1)}
+  if (way == "left") {
+    this.nextSpot = passConvertCoordinates(this.xCoord-1,this.yCoord);
+    this.xCoord = this.xCoord-1;
+  }
+  if (way == "up") {this.nextSpot = passConvertCoordinates(
+    this.xCoord,this.yCoord-1);
+    this.yCoord = this.yCoord-1;
+  }
+  if (way == "right") {this.nextSpot = passConvertCoordinates(
+    this.xCoord+1,this.yCoord);
+    this.xCoord = this.xCoord+1;    
+  }
+  if (way == "down") {this.nextSpot = passConvertCoordinates(
+    this.xCoord,this.yCoord+1);
+    this.yCoord = this.yCoord+1;
+  }
+  map1Layout = map1Layout.replaceAt(this.currentSpot, "_");
+  map1Layout = map1Layout.replaceAt(this.nextSpot, "8");
+  this.currentSpot = this.nextSpot;
+  this.nextSpot = "";
+  return this.currentSpot;
 }
 
-
-console.log(player1);
+String.prototype.replaceAt=function(index, replacement) {
+    return this.substr(0, index) + replacement+ this.substr(index + replacement.length);
+}
 
 function drawScreen() {
   $("#display").html("");
