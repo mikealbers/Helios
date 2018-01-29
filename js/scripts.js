@@ -39,32 +39,59 @@ var map1Layout = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'+
 'x________________________________________________x'+
 'x________________________________________________x'+
 'x____[]___________8_____________[]_______________x'+
-'xxxxxxxxxxxxxxxxx\\_/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
+'xxxxxxxxxxxxxxxxx===xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx';
+
+function Player(xCoord, yCoord) {
+  this.xCoord = xCoord;
+  this.yCoord = yCoord;
+}
+
+var player1 = new Player(18,40);
+console.log(player1);
+
+function drawScreen() {
+  $("#display").html("");
+  //draw the screen
+  var character = 0;
+  for (var i = 0; i < 42; i++) {
+    //row
+    for (var x = 0; x < 50; x++) {
+      $("#display").append(map1Layout.charAt(character));
+       character++;
+    }
+    $("#display").append("<br>");
+  }
+}
+
+function getConvertCoordinates(longCoord) {
+  var y = Math.floor(longCoord/50);
+  var x = longCoord - (y * 50);
+  return y;
+}
+
+function passConvertCoordinates(xcoord,ycoord) {
+  var y = ycoord * 50;
+  return xcoord+y;
+}
+
+var Game = {};
+
+Game.fps = 30;
+
+Game.run = function() {
+  drawScreen();
+};
+
 
 
 $(document).ready(function() {
-  var test = 600;
-  var itterate = 0;
-  setInterval(onTimerTick, 33); // 33 milliseconds = ~ 30 frames per sec
 
+  $(".test").append(map1Layout.charAt(passConvertCoordinates(18,40)));
 
+  Game._intervalId = setInterval(Game.run, 1000 / Game.fps);
+  //setInterval(onTimerTick, 33); // 33 milliseconds = ~ 30 frames per sec
 
-  function onTimerTick() {
-    // if (itterate<test) {
-    //   $("#display").html(itterate);
-    //   itterate++;
-    // }
-    // Do stuff.
-    $("#display").html("");
-    //draw the screen
-    var character = 0;
-    for (var i = 0; i < 50; i++) {
-      //row
-      for (var x = 0; x < 50; x++) {
-        $("#display").append(map1Layout.charAt(character));
-         character++;
-      }
-      $("#display").append("<br>");
-    }
-  }
+  // function onTimerTick() {
+  //   drawScreen();
+  // }
 })
