@@ -88,7 +88,7 @@ function updateGameArea() {
     }
     gameWindow.clear();
     gameWindow.frameNo += 1;
-    if (gameWindow.frameNo == 1 || everyinterval(50)) {
+    if (gameWindow.frameNo == 1 || everyinterval(20)) {
         x = gameWindow.canvas.width;
         y = gameWindow.canvas.height
         minHeight = 20;
@@ -98,10 +98,10 @@ function updateGameArea() {
         maxGap = 200;
         gap = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
         mapBuildings.push(new component(20, -100, "green", x, y));
-        mapBuildings.push(new component(10, x - height - gap, "green", x, height + gap));
+        // mapBuildings.push(new component(10, x - height - gap, "green", x, height + gap));
     }
     for (i = 0; i < mapBuildings.length; i += 1) {
-        mapBuildings[i].x += -4;
+        mapBuildings[i].x += -12;
         mapBuildings[i].update();
     }
     playerShip.speedX = 0;
