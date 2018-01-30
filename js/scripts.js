@@ -2,7 +2,6 @@
 var playerShip;
 var mapBuildings = [];
 
-
 function startGame() {
     playerShip = new component(20, 10, "red", 10, 10);
     gameWindow.start();
@@ -31,6 +30,7 @@ var gameWindow = {
     },
     stop : function() {
         clearInterval(this.interval);
+        startGame();
     }
 }
 
@@ -61,26 +61,46 @@ function component(width, height, color, x, y) {
       if (this.x < left) {this.x = left;}
       if (this.x > right) {this.x = right;}
     }
+    // this.landWith = function (otherobj) {
+    //   var myleft = this.x;
+    //   var myright = this.x + (this.width);
+    //   var mytop = this.y;
+    //   var mybottom = this.y + (this.height);
+    //   var otherleft = otherobj.x;
+    //   var otherright = otherobj.x + (otherobj.width);
+    //   var othertop = otherobj.y;
+    //   var otherbottom = otherobj.y + (otherobj.height);
+    //   var land = true;
+    //   if (mybottom < othertop) {
+    //     land = false;
+    //   }
+    //   return land;
+    // }
     this.crashWith = function(otherobj) {
-        var myleft = this.x;
-        var myright = this.x + (this.width);
-        var mytop = this.y;
-        var mybottom = this.y + (this.height);
-        var otherleft = otherobj.x;
-        var otherright = otherobj.x + (otherobj.width);
-        var othertop = otherobj.y;
-        var otherbottom = otherobj.y + (otherobj.height);
-        var crash = true;
-        if ((mybottom < othertop) || (mytop > otherbottom) || (myright < otherleft) || (myleft > otherright)) {
-            crash = false;
-        }
-        return crash;
+      var myleft = this.x;
+      var myright = this.x + (this.width);
+      var mytop = this.y;
+      var mybottom = this.y + (this.height);
+      var otherleft = otherobj.x;
+      var otherright = otherobj.x + (otherobj.width);
+      var othertop = otherobj.y;
+      var otherbottom = otherobj.y + (otherobj.height);
+      var crash = true;
+      if ((mybottom < othertop) || (mytop > otherbottom) || (myright < otherleft) || (myleft > otherright)) {
+          crash = false;
+      }
+      return crash;
     }
 }
 
 function updateGameArea() {
     var x, height, gap, minHeight, maxHeight, minGap, maxGap;
+    var interval = Math.floor(Math.random() * 1.2);
+
     for (i = 0; i < mapBuildings.length; i += 1) {
+        // if (playerShip.landWith(mapBuildings[i])) {
+        //     gameWindow.enterBuilding();
+        // } else
         if (playerShip.crashWith(mapBuildings[i])) {
             gameWindow.stop();
             return;
@@ -88,20 +108,21 @@ function updateGameArea() {
     }
     gameWindow.clear();
     gameWindow.frameNo += 1;
-    if (gameWindow.frameNo == 1 || everyinterval(20)) {
+    if (gameWindow.frameNo == 1 || everyinterval(interval)) {
         x = gameWindow.canvas.width;
         y = gameWindow.canvas.height
-        minHeight = 20;
+        height = 80;
+        minHeight = 10;
         maxHeight = 200;
         height = Math.floor(Math.random()*(maxHeight-minHeight+1)+minHeight);
         minGap = 100;
         maxGap = 200;
         gap = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
-        mapBuildings.push(new component(20, -100, "green", x, y));
-        // mapBuildings.push(new component(10, x - height - gap, "green", x, height + gap));
+        mapBuildings.push(new component(50, height, "green", x, y - height));
+
     }
     for (i = 0; i < mapBuildings.length; i += 1) {
-        mapBuildings[i].x += -12;
+        mapBuildings[i].x += -4;
         mapBuildings[i].update();
     }
     playerShip.speedX = 0;
