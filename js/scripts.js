@@ -2,12 +2,13 @@
 var playerShip;
 var mapBuildings = [];
 
+
 function startGame() {
-    playerShip = new component(20, 10, "red", 10, 120);
-    GameWindow.start();
+    playerShip = new component(20, 10, "red", 10, 10);
+    gameWindow.start();
 }
 
-var GameWindow = {
+var gameWindow = {
     canvas : document.createElement("canvas"),
     start : function() {
         this.canvas.width = 500;
@@ -16,11 +17,11 @@ var GameWindow = {
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
         $(this.canvas).attr('id', 'cityCanvas');
         window.addEventListener('keydown', function (e) {
-            GameWindow.keys = (GameWindow.keys || []);
-            GameWindow.keys[e.keyCode] = true;
+            gameWindow.keys = (gameWindow.keys || []);
+            gameWindow.keys[e.keyCode] = true;
         })
         window.addEventListener('keyup', function (e) {
-            GameWindow.keys[e.keyCode] = false;
+            gameWindow.keys[e.keyCode] = false;
         })
         this.frameNo = 0;
         this.interval = setInterval(updateGameArea, 20);
@@ -41,7 +42,7 @@ function component(width, height, color, x, y) {
     this.x = x;
     this.y = y;
     this.update = function() {
-        ctx = GameWindow.context;
+        ctx = gameWindow.context;
         ctx.fillStyle = color;
         ctx.fillRect(this.x, this.y, this.width, this.height);
     }
@@ -51,10 +52,10 @@ function component(width, height, color, x, y) {
         this.hitSide();
     }
     this.hitSide = function() {
-      var bottom = GameWindow.canvas.height - this.height;
+      var bottom = gameWindow.canvas.height - this.height;
       var top = 0;
       var left = 0;
-      var right = GameWindow.canvas.width - this.width;
+      var right = gameWindow.canvas.width - this.width;
       if (this.y > bottom) {this.y = bottom;}
       if (this.y < top) {this.y = top;}
       if (this.x < left) {this.x = left;}
@@ -81,22 +82,23 @@ function updateGameArea() {
     var x, height, gap, minHeight, maxHeight, minGap, maxGap;
     for (i = 0; i < mapBuildings.length; i += 1) {
         if (playerShip.crashWith(mapBuildings[i])) {
-            GameWindow.stop();
+            gameWindow.stop();
             return;
         }
     }
-    GameWindow.clear();
-    GameWindow.frameNo += 1;
-    if (GameWindow.frameNo == 1 || everyinterval(20)) {
-        x = GameWindow.canvas.width;
+    gameWindow.clear();
+    gameWindow.frameNo += 1;
+    if (gameWindow.frameNo == 1 || everyinterval(50)) {
+        x = gameWindow.canvas.width;
+        y = gameWindow.canvas.height
         minHeight = 20;
         maxHeight = 200;
         height = Math.floor(Math.random()*(maxHeight-minHeight+1)+minHeight);
         minGap = 100;
         maxGap = 200;
         gap = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
-        mapBuildings.push(new component(10, height, "green", x, 100));
-        // mapBuildings.push(new component(10, x - height - gap, "green", x, height + gap));
+        mapBuildings.push(new component(20, -100, "green", x, y));
+        mapBuildings.push(new component(10, x - height - gap, "green", x, height + gap));
     }
     for (i = 0; i < mapBuildings.length; i += 1) {
         mapBuildings[i].x += -4;
@@ -104,17 +106,17 @@ function updateGameArea() {
     }
     playerShip.speedX = 0;
     playerShip.speedY = 0;
-    if (GameWindow.keys && GameWindow.keys[37]) {playerShip.speedX = -5; }
-    if (GameWindow.keys && GameWindow.keys[39]) {playerShip.speedX = 5; }
-    if (GameWindow.keys && GameWindow.keys[38]) {playerShip.speedY = -5; }
-    if (GameWindow.keys && GameWindow.keys[40]) {playerShip.speedY = 5; }
+    if (gameWindow.keys && gameWindow.keys[37]) {playerShip.speedX = -5; }
+    if (gameWindow.keys && gameWindow.keys[39]) {playerShip.speedX = 5; }
+    if (gameWindow.keys && gameWindow.keys[38]) {playerShip.speedY = -5; }
+    if (gameWindow.keys && gameWindow.keys[40]) {playerShip.speedY = 5; }
     playerShip.newPos();
     playerShip.update();
-    console.log(GameWindow.frameNo);
+    console.log(gameWindow.frameNo);
 }
 
 function everyinterval(n) {
-    if ((GameWindow.frameNo / n) % 1 == 0) {return true;}
+    if ((gameWindow.frameNo / n) % 1 == 0) {return true;}
     return false;
 }
 
