@@ -2,3 +2,34 @@
   font-family: monospace;
   line-height: 10px
 }
+
+.pixels {
+  height: 10px;
+  width: 10px;
+  display: inline-block;
+  margin: 0 0 0 0;
+  padding: 0 0 0 0;
+  margin-bottom: -1px;
+}
+
+.p {background:cyan}
+
+.x, .c {background:black}
+
+.t {background: purple}
+
+.n {background-color: #7fff00}
+
+.d {background:brown;}
+
+.o {background: white}
+
+.r {background:red;}
+
+/*(/_/g, 'o')
+  .replace(/\[\]/g, 'cc')
+  .replace(/8/g, 'p')
+  .replace(/\[\]/g, 'cc')
+  .replace(/&/g, 'n')
+  .replace(/@/g, 't')
+  .replace(/=/g, 'd')*/
