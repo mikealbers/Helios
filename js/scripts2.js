@@ -51,16 +51,50 @@ function Player(xCoord, yCoord, facing) {
 
 var player1 = new Player(18,40, "down");
 
-Player.prototype.interact = function(interactWith) {
-  if (interactWith == "talk") {
-    //check if spaces near are interactable
 
-    console.log(this.facing);
+Player.prototype.interact = function(interactWith) {
+
+  //getNextSpot(player1.facing);
+  // player1.facing = way;
+
+  if (interactWith == "talk") {
+    //check if space where you are facing is a npc and if so then alert or w/e
+    //player1.facing
+    var way = player1.facing;
+
+    if (way == "left") {
+      this.nextSpot = passConvertCoordinates(this.xCoord-1,this.yCoord);
+    }
+    if (way == "up") {
+      this.nextSpot = passConvertCoordinates(this.xCoord,this.yCoord-1);
+    }
+    if (way == "right") {
+      this.nextSpot = passConvertCoordinates(this.xCoord+1,this.yCoord);
+    }
+    if (way == "down") {
+      this.nextSpot = passConvertCoordinates(this.xCoord,this.yCoord+1);
+    }
+
+    if(mapLayout.charAt(this.nextSpot) == "&") {alert("hello")}
+
   }
 }
 
 Player.prototype.move = function(way) {
   //collision detection
+
+  if (way == "left") {
+    this.nextSpot = passConvertCoordinates(this.xCoord-1,this.yCoord);
+  }
+  if (way == "up") {
+    this.nextSpot = passConvertCoordinates(this.xCoord,this.yCoord-1);
+  }
+  if (way == "right") {
+    this.nextSpot = passConvertCoordinates(this.xCoord+1,this.yCoord);
+  }
+  if (way == "down") {
+    this.nextSpot = passConvertCoordinates(this.xCoord,this.yCoord+1);
+  }
 
   this.facing = way;
 
@@ -79,10 +113,10 @@ Player.prototype.move = function(way) {
   }
 
   if (mapLayout.charAt(this.nextSpot) !== "_") {
-    if (mapLayout.charAt(this.nextSpot) == "&") {console.log("hello")}
-    else {
+    // if (mapLayout.charAt(this.nextSpot) == "&") {console.log("hello")}
+    // else {
     this.nextSpot = "";
-    }
+    // }
   }
   else {
     if (way == "left") {
@@ -137,7 +171,7 @@ function drawScreen() {
 
       if (map1Layout.charAt(character) == "p") {
         $("#display").append("<span class='"+map1Layout.charAt(character)+" "+player1.facing+" pixels'>"+"</span>");
-        console.log(player1.facing);
+        //console.log(player1.facing);
       }
       else {
         $("#display").append("<span class='"+map1Layout.charAt(character)+" pixels'>"+"</span>");
