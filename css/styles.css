@@ -2,4 +2,11 @@
   background: #000;
   border-style: solid;
   border-color: #000;
+  max-width: 90%;
+  max-height: 70%;
+  width: 70%;
+  margin: 1em;
+  margin-right: 10%;
+  padding: 10px;
+
 }

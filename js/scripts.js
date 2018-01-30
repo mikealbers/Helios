@@ -2,18 +2,18 @@
 var playerShip;
 var mapBuildings = [];
 
-function startGame() {
-    playerShip = new component(20, 10, "red", 10, 10);
+function startShipGame() {
+    playerShip = new component(30, 10, "red", 10, 10);
     gameWindow.start();
 }
 
 var gameWindow = {
     canvas : document.createElement("canvas"),
     start : function() {
-        this.canvas.width = 500;
-        this.canvas.height = 250;
+        this.canvas.width = 750;
+        this.canvas.height = 500;
         this.context = this.canvas.getContext("2d");
-        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+        $('#sideScrollWindow').append(this.canvas);
         $(this.canvas).attr('id', 'cityCanvas');
         window.addEventListener('keydown', function (e) {
             gameWindow.keys = (gameWindow.keys || []);
@@ -30,7 +30,8 @@ var gameWindow = {
     },
     stop : function() {
         clearInterval(this.interval);
-        startGame();
+        $(this.canvas).fadeOut();
+
     }
 }
 
@@ -118,7 +119,11 @@ function updateGameArea() {
         minGap = 100;
         maxGap = 200;
         gap = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
-        mapBuildings.push(new component(50, height, "green", x, y - height));
+        mapBuildings.push(new component(50, height, "#aaa", x, y - height));
+        mapBuildings.push(new component(50, height, "#aaa", x, y - height));
+        mapBuildings.push(new component(50, height, "#yellow", x, y - height));
+        mapBuildings.push(new component(50, height, "#aaa", x, y - height));
+
 
     }
     for (i = 0; i < mapBuildings.length; i += 1) {
@@ -127,10 +132,10 @@ function updateGameArea() {
     }
     playerShip.speedX = 0;
     playerShip.speedY = 0;
-    if (gameWindow.keys && gameWindow.keys[37]) {playerShip.speedX = -5; }
-    if (gameWindow.keys && gameWindow.keys[39]) {playerShip.speedX = 5; }
-    if (gameWindow.keys && gameWindow.keys[38]) {playerShip.speedY = -5; }
-    if (gameWindow.keys && gameWindow.keys[40]) {playerShip.speedY = 5; }
+    if (gameWindow.keys && gameWindow.keys[65]) {playerShip.speedX = -5; }
+    if (gameWindow.keys && gameWindow.keys[68]) {playerShip.speedX = 5; }
+    if (gameWindow.keys && gameWindow.keys[87]) {playerShip.speedY = -5; }
+    if (gameWindow.keys && gameWindow.keys[83]) {playerShip.speedY = 5; }
     playerShip.newPos();
     playerShip.update();
     console.log(gameWindow.frameNo);
@@ -142,5 +147,5 @@ function everyinterval(n) {
 }
 
 $(document).ready(function() {
-  startGame();
+  startShipGame();
 })
