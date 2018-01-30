@@ -62,7 +62,6 @@ Player.prototype.move = function(way) {
   }
   if (way == "right") {this.nextSpot = passConvertCoordinates(
     this.xCoord+1,this.yCoord);
-
   }
   if (way == "down") {this.nextSpot = passConvertCoordinates(
     this.xCoord,this.yCoord+1);
