@@ -49,21 +49,53 @@ function Player(xCoord, yCoord, facing) {
   this.facing = "up";
 }
 
-function Robot(xCoord, yCoord, currentSpot) {
+function Robot(xCoord, yCoord) {
   this.xCoord = xCoord;
   this.yCoord = yCoord;
-  this.currentSpot = currentSpot;
+  this.currentSpot = "";
+  this.nextSpot = "";
+  this.status = "true";
 }
 
 var player1 = new Player(18,40, "down");
 
-var robot1 = new Robot(5,10,505);
-var robot2 = new Robot(44,23,1194);
-var robot3 = new Robot(8,30,1508);
-var robot4 = new Robot(43,33,1693);
+var robot1 = new Robot(5,10);
+var robot2 = new Robot(44,23);
+var robot3 = new Robot(8,30);
+var robot4 = new Robot(43,33);
 
 Robot.prototype.move = function() {
+  this.currentSpot = passConvertCoordinates(this.xCoord,this.yCoord);
 
+  if (this.status == "false") {
+    this.currentSpot = passConvertCoordinates(this.xCoord,this.yCoord);
+    if (this.xCoord < player1.yCoord) {this.nextSpot = passConvertCoordinates(this.xCoord+1)}
+    if (this.xCoord > player1.yCoord) {this.nextSpot = passConvertCoordinates(this.xCoord-1)}
+
+    if (mapLayout.charAt(this.nextSpot) == "_") {
+      mapLayout = mapLayout.replaceAt(this.currentSpot, "_");
+      mapLayout = mapLayout.replaceAt(this.nextSpot, "!");
+      this.currentSpot = this.nextSpot;
+      this.nextSpot = "";
+    }
+    if (this.xCoord < player1.xCoord) {this.xCoord = this.xCoord+1;}
+    if (this.xCoord > player1.xCoord) {this.xCoord = this.xCoord-1;}
+    this.status = "true";
+  }
+  if (this.status == "true") {
+    if (this.yCoord < player1.yCoord) {this.nextSpot = passConvertCoordinates(this.xCoord,this.yCoord+1)}
+    if (this.yCoord > player1.yCoord) {this.nextSpot = passConvertCoordinates(this.xCoord,this.yCoord-1)}
+
+    if (mapLayout.charAt(this.nextSpot) == "_") {
+      mapLayout = mapLayout.replaceAt(this.currentSpot, "_");
+      mapLayout = mapLayout.replaceAt(this.nextSpot, "!");
+      this.currentSpot = this.nextSpot;
+      this.nextSpot = "";
+    }
+    if (this.yCoord < player1.yCoord) {this.yCoord = this.yCoord+1;}
+    if (this.yCoord > player1.yCoord) {this.yCoord = this.yCoord-1;}
+    this.status = "false";
+  }
 }
 
 Player.prototype.interact = function(interactWith) {
@@ -184,13 +216,25 @@ function drawScreen() {
     }
     $("#display").append("<br>");
   }
+
+    robot1.move();
+    robot2.move();
+    robot3.move();
+    robot4.move();
 }
 
-function getConvertCoordinates(longCoord) {
+function getXConvertCoordinates(longCoord) {
   var y = Math.floor(longCoord/50);
   var x = longCoord - (y * 50);
   //console.log("x: "+x+" "+"y: "+y);
-  //return x;
+  return x;
+}
+
+function getYConvertCoordinates(longCoord) {
+  var y = Math.floor(longCoord/50);
+  var x = longCoord - (y * 50);
+  //console.log("x: "+x+" "+"y: "+y);
+  return y;
 }
 
 function passConvertCoordinates(xcoord,ycoord) {
@@ -244,6 +288,7 @@ function keydown(e) {
     if (key == 39) {player1.move("right");}
     if (key == 40) {player1.move("down");}
     if (key == 84) {player1.interact("talk");}
+
   }
 }
 
