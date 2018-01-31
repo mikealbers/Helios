@@ -48,6 +48,10 @@ function Player(xCoord, yCoord, facing) {
   this.nextSpot = "";
   this.facing = "up";
   this.pause = false;
+  this.nextX = xCoord;
+  this.nextX2 = xCoord-1;
+  this.nextY = yCoord;
+  this.nextY2 = yCoord;
 }
 
 function Robot(xCoord, yCoord, facing) {
@@ -64,6 +68,7 @@ function Robot(xCoord, yCoord, facing) {
   this.nextY2 = yCoord;
   this.randomStore = Math.floor(Math.random() * (4 - 1 + 1)) + 1;
   this.randomZero = 0;
+  this.isFunctional = true;
 }
 
 var player1 = new Player(18,40, "down");
@@ -208,17 +213,80 @@ Robot.prototype.move = function() {
 
 }
 
+Player.prototype.shoot = function() {
+  //curent spot
+  //we'll detect if the next spot and the spot before and after are a robot
+  //if a robot then make it so robot.move can't function
+  //if the shot hits something then delete the bullet
+  if (this.facing == "right") {
+    console.log("right");
+    while (this.nextX < 48) {
+      this.nextX = this.nextX+1;
+      replaceSpot = passConvertCoordinates(this.nextX,this.yCoord);
+      if (mapLayout.charAt(replaceSpot) !== "_" && mapLayout.charAt(replaceSpot) !== "*") {
+        this.nextX = 48;
+      }
+      else {
+        mapLayout = mapLayout.replaceAt(replaceSpot, "b");
+      }
+      if (mapLayout.charAt(replaceSpot) == "!") {console.log("robot")}
+    }
+    this.nextX = this.xCoord;
+  }
+  if (this.facing == "left") {
+    console.log("left");
+    while (this.nextX2 > 1) {
+      this.nextX2 = this.nextX2-1;
+      replaceSpot = passConvertCoordinates(this.nextX2,this.yCoord);
+      if (mapLayout.charAt(replaceSpot) !== "_" && mapLayout.charAt(replaceSpot) !== "*") {
+        this.nextX2 = 1;
+      }
+      else {
+        mapLayout = mapLayout.replaceAt(replaceSpot, "b");
+      }
+      if (mapLayout.charAt(replaceSpot) == "!") {console.log("robot")}
+    }
+    this.nextX2 = this.xCoord;
+  }
+  if (this.facing == "up") {
+    console.log("top");
+    while (this.nextY > 1) {
+      this.nextY = this.nextY-1;
+      replaceSpot = passConvertCoordinates(this.xCoord,this.nextY);
+      if (mapLayout.charAt(replaceSpot) !== "_" && mapLayout.charAt(replaceSpot) !== "*") {
+        this.nextY = 1;
+      }
+      else {
+        mapLayout = mapLayout.replaceAt(replaceSpot, "b");
+      }
+      if (mapLayout.charAt(replaceSpot) == "!") {console.log("robot")}
+    }
+    this.nextY = this.yCoord;
+  }
+  if (this.facing == "down") {
+    console.log("bottom");
+    while (this.nextY2 < 40) {
+      this.nextY2 = this.nextY2+1;
+      replaceSpot = passConvertCoordinates(this.xCoord,this.nextY2);
+      if (mapLayout.charAt(replaceSpot) !== "_" && mapLayout.charAt(replaceSpot) !== "*") {
+        this.nextY2 = 40;
+      }
+      else {
+        mapLayout = mapLayout.replaceAt(replaceSpot, "b");
+      }
+      if (mapLayout.charAt(replaceSpot) == "!") {console.log("robot")}
+    }
+    this.nextY2 = this.yCoord;
+  }
+
+
+}
+
 Player.prototype.checkForRobots = function() {
   if (mapLayout.charAt(passConvertCoordinates(this.xCoord,this.yCoord+1)) == "!" ||
       mapLayout.charAt(passConvertCoordinates(this.xCoord,this.yCoord-1)) == "!" ||
       mapLayout.charAt(passConvertCoordinates(this.xCoord+1,this.yCoord)) == "!" ||
-      mapLayout.charAt(passConvertCoordinates(this.xCoord-1,this.yCoord)) == "!"
-      // ||
-      // mapLayout.charAt(passConvertCoordinates(this.xCoord+1,this.yCoord+1)) == "!" ||
-      // mapLayout.charAt(passConvertCoordinates(this.xCoord+1,this.yCoord-1)) == "!" ||
-      // mapLayout.charAt(passConvertCoordinates(this.xCoord-1,this.yCoord+1)) == "!" ||
-      // mapLayout.charAt(passConvertCoordinates(this.xCoord-1,this.yCoord-1)) == "!"
-      ) {
+      mapLayout.charAt(passConvertCoordinates(this.xCoord-1,this.yCoord)) == "!") {
     //console.log("game over");
     $(".test").html("game over");
   } else {
@@ -463,16 +531,18 @@ function keydown(e) {
   var animation = change[key];
   if (!movement[key]) { // watch out for repeating keys!
       movement[key] = setInterval(keepGoing)
+
   }
   //  console.log("down", key, movement[key])
   function keepGoing() {
     //console.log(animation)
     if (player1.pause == false) {
-      if (key == 37) {player1.move("left");}
-      if (key == 38) {player1.move("up");}
-      if (key == 39) {player1.move("right");}
-      if (key == 40) {player1.move("down");}
-      if (key == 84) {player1.interact("talk");}
+      if (key == 37) {player1.move("left")}
+      if (key == 38) {player1.move("up")}
+      if (key == 39) {player1.move("right")}
+      if (key == 40) {player1.move("down")}
+      if (key == 84) {player1.interact("talk")}
+      if (key == 32) {player1.shoot()}
   }
 
   }
