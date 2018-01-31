@@ -4,7 +4,7 @@ var mapLayout = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'+
 'x________________________________________________x'+
 'x________________________________________________x'+
 'x________________________________________________x'+
-'x________________________________________________x'+
+'x________________!_______________________________x'+
 'x_________[]_______________________________[]____x'+
 'x________________________________________________x'+
 'x________________________________________________x'+
@@ -79,7 +79,7 @@ Robot.prototype.checkForPlayers = function() {
   var spotSelector = this.currentSpot+1;
 
 
-  if (this.randomZero < 10){
+  if (this.randomZero < 5){
     this.randomZero++;
   } else {
     this.randomStore = Math.floor(Math.random() * (4 - 1 + 1)) + 1;
@@ -299,8 +299,38 @@ String.prototype.replaceAt=function(index, replacement) {
     return this.substr(0, index) + replacement+ this.substr(index + replacement.length);
 }
 
-var moveCount = 0;
 
+
+function cleanScreen() {
+  var coords = 0;
+  var matches = mapLayout.match(/(.*?)\!/g);
+  for (i=0; i<matches.length; i++) {
+    coords = coords+matches[i].length;
+    var questionsMarkXCoord = getXConvertCoordinates(coords-1);
+    var questionsMarkYCoord = getYConvertCoordinates(coords-1);
+    //console.log(questionsMarkXCoord+" "+questionsMarkYCoord);
+
+    //if x and y coordinates are equal to each robot coordinates
+    if (questionsMarkXCoord == robot1.xCoord && questionsMarkYCoord == robot1.yCoord ||
+        questionsMarkXCoord == robot2.xCoord && questionsMarkYCoord == robot2.yCoord ||
+        questionsMarkXCoord == robot3.xCoord && questionsMarkYCoord == robot3.yCoord ||
+        questionsMarkXCoord == robot4.xCoord && questionsMarkYCoord == robot4.yCoord) {} else {mapLayout = mapLayout.replaceAt(coords-1, "_");}
+
+  }
+  //alert(coords);
+
+  //
+  // var testlength = 0;
+  // mapLayout.match(/(.*?)\!/g).forEach(function(element,index){
+  //   //console.log(element);
+  //   console.log(element[0]);
+  //   testlength++
+  // });
+  // testlength = 0;
+}
+
+
+var moveCount = 0;
 function drawScreen() {
 
   var map1Layout = mapLayout;
@@ -351,6 +381,27 @@ function drawScreen() {
 
     }
 
+    // character = 0;
+    // for (var i = 0; i < 42; i++) {
+    //   //row
+    //   for (var x = 0; x < 50; x++) {
+    //     $(".test").append(mapLayout.charAt(character));
+    //       character++;
+    //   }
+    //   $(".test").append("<br>");
+    // }
+
+    //map1Layout = map1Layout.match(/^(.*?)\!/g);
+
+    //var myRegexp = /\!(.*?)\!/g;
+
+    // var match = myRegexp.match(mapLayout);
+    //console.log(match);
+    //console.log(mapLayout.match(myRegexp).length);//outputs the number of matches
+    // for (i=0; i<match.length; i++) {
+    //    alert(i+" "+match[i]);
+    // }
+    //console.log(match[2]);
 }
 
 function getXConvertCoordinates(longCoord) {
@@ -380,6 +431,7 @@ else {Game.fps = 60;}
 
 Game.run = function() {
   drawScreen();
+  cleanScreen();
 };
 
 var change = {
@@ -432,6 +484,7 @@ function keyup(e) {
 }
 
 $(document).ready(function() {
+
 
 
     Game._intervalId = setInterval(Game.run, 1000 / Game.fps);
