@@ -49,23 +49,31 @@ function Player(xCoord, yCoord, facing) {
   this.facing = "up";
 }
 
-function Robot(xCoord, yCoord) {
+function Robot(xCoord, yCoord, facing) {
   this.xCoord = xCoord;
   this.yCoord = yCoord;
   this.currentSpot = "";
   this.nextSpot = "";
   this.status = true;
+  this.facing = "up";
 }
 
 var player1 = new Player(18,40, "down");
 
-var robot1 = new Robot(5,10);
-var robot2 = new Robot(44,23);
-var robot3 = new Robot(8,30);
-var robot4 = new Robot(43,33);
+var robot1 = new Robot(5,10, "up");
+var robot2 = new Robot(44,23, "up");
+var robot3 = new Robot(8,30, "up");
+var robot4 = new Robot(43,33, "up");
+
 
 Robot.prototype.move = function() {
+
   this.currentSpot = passConvertCoordinates(this.xCoord,this.yCoord);
+
+
+  var spotSelector = this.currentSpot+1;
+  $("span:nth-of-type("+spotSelector+")").css('background', 'blue');
+
   if (this.status == true) {
     if (this.yCoord < player1.yCoord) {this.nextSpot = passConvertCoordinates(this.xCoord,this.yCoord+1)}
     if (this.yCoord > player1.yCoord) {this.nextSpot = passConvertCoordinates(this.xCoord,this.yCoord-1)}
@@ -97,32 +105,32 @@ Robot.prototype.move = function() {
       this.status = true;
     }
   }
-  // this.rID
 }
 
-
+Player.prototype.checkForRobots = function() {
+  if (mapLayout.charAt(passConvertCoordinates(this.xCoord,this.yCoord+1)) == "!" ||
+      mapLayout.charAt(passConvertCoordinates(this.xCoord,this.yCoord-1)) == "!" ||
+      mapLayout.charAt(passConvertCoordinates(this.xCoord+1,this.yCoord)) == "!" ||
+      mapLayout.charAt(passConvertCoordinates(this.xCoord-1,this.yCoord)) == "!" ||
+      mapLayout.charAt(passConvertCoordinates(this.xCoord+1,this.yCoord+1)) == "!" ||
+      mapLayout.charAt(passConvertCoordinates(this.xCoord+1,this.yCoord-1)) == "!" ||
+      mapLayout.charAt(passConvertCoordinates(this.xCoord-1,this.yCoord+1)) == "!" ||
+      mapLayout.charAt(passConvertCoordinates(this.xCoord-1,this.yCoord-1)) == "!") {
+    //console.log("yup");
+    //game over
+  }
+}
 
 Player.prototype.interact = function(interactWith) {
-
 
   if (interactWith == "talk") {
     //check if space where you are facing is a npc and if so then alert or w/e
     var way = player1.facing;
 
-    if (way == "left") {
-      this.nextSpot = passConvertCoordinates(this.xCoord-1,this.yCoord);
-    }
-    if (way == "up") {
-      this.nextSpot = passConvertCoordinates(this.xCoord,this.yCoord-1);
-    }
-    if (way == "right") {
-      this.nextSpot = passConvertCoordinates(this.xCoord+1,this.yCoord);
-    }
-    if (way == "down") {
-      this.nextSpot = passConvertCoordinates(this.xCoord,this.yCoord+1);
-    }
-
-
+    if (way == "left") {this.nextSpot = passConvertCoordinates(this.xCoord-1,this.yCoord);}
+    if (way == "up") {this.nextSpot = passConvertCoordinates(this.xCoord,this.yCoord-1);}
+    if (way == "right") {this.nextSpot = passConvertCoordinates(this.xCoord+1,this.yCoord);}
+    if (way == "down") {this.nextSpot = passConvertCoordinates(this.xCoord,this.yCoord+1);}
     if(mapLayout.charAt(this.nextSpot) == "&") {console.log("hello")}
     //console.log(this.nextSpot+" "+getConvertCoordinates(this.nextSpot));
   }
@@ -131,18 +139,10 @@ Player.prototype.interact = function(interactWith) {
 Player.prototype.move = function(way) {
 
   //collision detection
-  if (way == "left") {
-    this.nextSpot = passConvertCoordinates(this.xCoord-1,this.yCoord);
-  }
-  if (way == "up") {
-    this.nextSpot = passConvertCoordinates(this.xCoord,this.yCoord-1);
-  }
-  if (way == "right") {
-    this.nextSpot = passConvertCoordinates(this.xCoord+1,this.yCoord);
-  }
-  if (way == "down") {
-    this.nextSpot = passConvertCoordinates(this.xCoord,this.yCoord+1);
-  }
+  if (way == "left") {this.nextSpot = passConvertCoordinates(this.xCoord-1,this.yCoord);}
+  if (way == "up") {this.nextSpot = passConvertCoordinates(this.xCoord,this.yCoord-1);}
+  if (way == "right") {this.nextSpot = passConvertCoordinates(this.xCoord+1,this.yCoord);}
+  if (way == "down") {this.nextSpot = passConvertCoordinates(this.xCoord,this.yCoord+1);}
 
   this.facing = way;
 
@@ -188,6 +188,8 @@ String.prototype.replaceAt=function(index, replacement) {
     return this.substr(0, index) + replacement+ this.substr(index + replacement.length);
 }
 
+  var moveCount = 0;
+
 function drawScreen() {
 
   var map1Layout = mapLayout;
@@ -211,7 +213,6 @@ function drawScreen() {
 
       if (map1Layout.charAt(character) == "p") {
         $("#display").append("<span class='"+map1Layout.charAt(character)+" "+player1.facing+" pixels'>"+"</span>");
-        //console.log(player1.facing);
       }
       else {
         $("#display").append("<span class='"+map1Layout.charAt(character)+" pixels'>"+"</span>");
@@ -220,10 +221,17 @@ function drawScreen() {
     }
     $("#display").append("<br>");
   }
-  robot1.move();
-  robot2.move();
-  robot3.move();
-  robot4.move();
+
+  // if (moveCount == 1) {
+    robot1.move();
+    robot2.move();
+    robot3.move();
+    robot4.move();
+    player1.checkForRobots();
+  //   moveCount = 0;
+  // }
+  // else {moveCount++}
+
 }
 
 function getXConvertCoordinates(longCoord) {

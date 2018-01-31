@@ -18,6 +18,11 @@
   background-position: center;
 }
 
+
+.robot1 {
+  border: 1px solid black;
+}
+
 .down {background-image: url("../img/down.png")}
 
 .left {background-image: url("../img/left.png")}
@@ -39,8 +44,6 @@
 .d {background:brown;}
 
 .o {background: white}
-
-.r {background:red;}
 
 /*(/_/g, 'o')
   .replace(/\[\]/g, 'cc')
