@@ -45,6 +45,10 @@
 
 .o {background: white}
 
+.r {
+  background:red;
+}
+
 /*(/_/g, 'o')
   .replace(/\[\]/g, 'cc')
   .replace(/8/g, 'p')

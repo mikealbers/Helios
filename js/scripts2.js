@@ -46,7 +46,8 @@ function Player(xCoord, yCoord, facing) {
   this.yCoord = yCoord;
   this.currentSpot = 2018;
   this.nextSpot = "";
-  this.facing = "up";
+  this.facing = "top";
+  this.pause = false;
 }
 
 function Robot(xCoord, yCoord, facing) {
@@ -55,15 +56,17 @@ function Robot(xCoord, yCoord, facing) {
   this.currentSpot = "";
   this.nextSpot = "";
   this.status = true;
-  this.facing = "up";
+  this.facing = facing;
+  this.sight = "nothing";
 }
 
 var player1 = new Player(18,40, "down");
 
-var robot1 = new Robot(5,10, "up");
-var robot2 = new Robot(44,23, "up");
-var robot3 = new Robot(8,30, "up");
-var robot4 = new Robot(43,33, "up");
+var robot1 = new Robot(5,10, "top");
+var robot2 = new Robot(44,23, "top");
+var robot3 = new Robot(8,30, "top");
+var robot4 = new Robot(43,33, "top");
+
 
 
 Robot.prototype.move = function() {
@@ -73,50 +76,54 @@ Robot.prototype.move = function() {
   var spotSelector = this.currentSpot+1;
   $("span:nth-of-type("+spotSelector+")").css('background', 'red');
 
-  if (this.status == true) {
-    if (this.yCoord < player1.yCoord) {this.nextSpot = passConvertCoordinates(this.xCoord,this.yCoord+1)}
-    if (this.yCoord > player1.yCoord) {this.nextSpot = passConvertCoordinates(this.xCoord,this.yCoord-1)}
-    if (mapLayout.charAt(this.nextSpot) == "_") {
-      mapLayout = mapLayout.replaceAt(this.currentSpot, "_");
-      mapLayout = mapLayout.replaceAt(this.nextSpot, "!");
-      this.currentSpot = this.nextSpot;
-      this.nextSpot = "";
-      if (this.yCoord < player1.yCoord) {
-        this.yCoord = this.yCoord+1;
-        this.facing = "bottom";
-      }
-      if (this.yCoord > player1.yCoord) {
-        this.yCoord = this.yCoord-1;
-        this.facing = "top";
-      }
-      else {this.yCoord = this.yCoord}
-    } else {
-      this.status = false;
-    }
+  if (this.sight == "nothing") {
+
   }
   else {
-    if (this.xCoord < player1.xCoord) {this.nextSpot = passConvertCoordinates(this.xCoord+1,this.yCoord)}
-    if (this.xCoord > player1.xCoord) {this.nextSpot = passConvertCoordinates(this.xCoord-1,this.yCoord)}
-    if (mapLayout.charAt(this.nextSpot) == "_") {
-      mapLayout = mapLayout.replaceAt(this.currentSpot, "_");
-      mapLayout = mapLayout.replaceAt(this.nextSpot, "!");
-      this.currentSpot = this.nextSpot;
-      this.nextSpot = "";
-      if (this.xCoord < player1.xCoord) {
-        this.xCoord = this.xCoord+1;
-        this.facing = "right";
+    if (this.status == true) {
+      if (this.yCoord < player1.yCoord) {this.nextSpot = passConvertCoordinates(this.xCoord,this.yCoord+1)}
+      if (this.yCoord > player1.yCoord) {this.nextSpot = passConvertCoordinates(this.xCoord,this.yCoord-1)}
+      if (mapLayout.charAt(this.nextSpot) == "_") {
+        mapLayout = mapLayout.replaceAt(this.currentSpot, "_");
+        mapLayout = mapLayout.replaceAt(this.nextSpot, "!");
+        this.currentSpot = this.nextSpot;
+        this.nextSpot = "";
+        if (this.yCoord < player1.yCoord) {
+          this.yCoord = this.yCoord+1;
+          this.facing = "bottom";
+        }
+        if (this.yCoord > player1.yCoord) {
+          this.yCoord = this.yCoord-1;
+          this.facing = "top";
+        }
+        else {this.yCoord = this.yCoord}
+      } else {
+        this.status = false;
       }
-      if (this.xCoord > player1.xCoord) {
-        this.xCoord = this.xCoord-1;
-        this.facing = "left";
-      }
-      else {this.xCoord = this.xCoord}
     }
     else {
-      this.status = true;
+      if (this.xCoord < player1.xCoord) {this.nextSpot = passConvertCoordinates(this.xCoord+1,this.yCoord)}
+      if (this.xCoord > player1.xCoord) {this.nextSpot = passConvertCoordinates(this.xCoord-1,this.yCoord)}
+      if (mapLayout.charAt(this.nextSpot) == "_") {
+        mapLayout = mapLayout.replaceAt(this.currentSpot, "_");
+        mapLayout = mapLayout.replaceAt(this.nextSpot, "!");
+        this.currentSpot = this.nextSpot;
+        this.nextSpot = "";
+        if (this.xCoord < player1.xCoord) {
+          this.xCoord = this.xCoord+1;
+          this.facing = "right";
+        }
+        if (this.xCoord > player1.xCoord) {
+          this.xCoord = this.xCoord-1;
+          this.facing = "left";
+        }
+        else {this.xCoord = this.xCoord}
+      }
+      else {
+        this.status = true;
+      }
     }
   }
-
   $("span:nth-of-type("+spotSelector+")").css('border-'+this.facing, '1px solid black');
 
 }
@@ -125,18 +132,25 @@ Player.prototype.checkForRobots = function() {
   if (mapLayout.charAt(passConvertCoordinates(this.xCoord,this.yCoord+1)) == "!" ||
       mapLayout.charAt(passConvertCoordinates(this.xCoord,this.yCoord-1)) == "!" ||
       mapLayout.charAt(passConvertCoordinates(this.xCoord+1,this.yCoord)) == "!" ||
-      mapLayout.charAt(passConvertCoordinates(this.xCoord-1,this.yCoord)) == "!" ||
-      mapLayout.charAt(passConvertCoordinates(this.xCoord+1,this.yCoord+1)) == "!" ||
-      mapLayout.charAt(passConvertCoordinates(this.xCoord+1,this.yCoord-1)) == "!" ||
-      mapLayout.charAt(passConvertCoordinates(this.xCoord-1,this.yCoord+1)) == "!" ||
-      mapLayout.charAt(passConvertCoordinates(this.xCoord-1,this.yCoord-1)) == "!") {
+      mapLayout.charAt(passConvertCoordinates(this.xCoord-1,this.yCoord)) == "!"
+      // ||
+      // mapLayout.charAt(passConvertCoordinates(this.xCoord+1,this.yCoord+1)) == "!" ||
+      // mapLayout.charAt(passConvertCoordinates(this.xCoord+1,this.yCoord-1)) == "!" ||
+      // mapLayout.charAt(passConvertCoordinates(this.xCoord-1,this.yCoord+1)) == "!" ||
+      // mapLayout.charAt(passConvertCoordinates(this.xCoord-1,this.yCoord-1)) == "!"
+      ) {
     //console.log("game over");
+    $(".test").html("game over");
+  } else {
+    $(".test").html("");
   }
 }
 
 Player.prototype.interact = function(interactWith) {
 
   if (interactWith == "talk") {
+
+    player1.pause = true;
     //check if space where you are facing is a npc and if so then alert or w/e
     var way = player1.facing;
 
@@ -144,7 +158,11 @@ Player.prototype.interact = function(interactWith) {
     if (way == "up") {this.nextSpot = passConvertCoordinates(this.xCoord,this.yCoord-1);}
     if (way == "right") {this.nextSpot = passConvertCoordinates(this.xCoord+1,this.yCoord);}
     if (way == "down") {this.nextSpot = passConvertCoordinates(this.xCoord,this.yCoord+1);}
-    if(mapLayout.charAt(this.nextSpot) == "&") {console.log("hello")}
+    if(mapLayout.charAt(this.nextSpot) == "&") {console.log("hello");}
+    if(mapLayout.charAt(this.nextSpot) == "t") {
+      console.log("terminal");
+
+    }
     //console.log(this.nextSpot+" "+getConvertCoordinates(this.nextSpot));
   }
 }
@@ -201,7 +219,7 @@ String.prototype.replaceAt=function(index, replacement) {
     return this.substr(0, index) + replacement+ this.substr(index + replacement.length);
 }
 
-  var moveCount = 0;
+var moveCount = 0;
 
 function drawScreen() {
 
@@ -234,16 +252,19 @@ function drawScreen() {
     }
     $("#display").append("<br>");
   }
+    if (player1.pause == false) {
+      player1.checkForRobots();
 
-  // if (moveCount == 1) {
-    robot1.move();
-    robot2.move();
-    robot3.move();
-    robot4.move();
-    player1.checkForRobots();
-  //   moveCount = 0;
-  // }
-  // else {moveCount++}
+      if (moveCount == 2) {
+        robot1.move();
+        robot2.move();
+        robot3.move();
+        robot4.move();
+        // console.log(moveCount);
+        moveCount = 0;
+      }
+      moveCount++;
+    }
 
 }
 
@@ -268,7 +289,9 @@ function passConvertCoordinates(xcoord,ycoord) {
 
 var Game = {};
 
-Game.fps = 30;
+if (player1.pause == true) {Game.fps = 0; console.log("0")}
+else {Game.fps = 60;}
+
 
 Game.run = function() {
   drawScreen();
@@ -307,11 +330,13 @@ function keydown(e) {
   //  console.log("down", key, movement[key])
   function keepGoing() {
     //console.log(animation)
-    if (key == 37) {player1.move("left");}
-    if (key == 38) {player1.move("up");}
-    if (key == 39) {player1.move("right");}
-    if (key == 40) {player1.move("down");}
-    if (key == 84) {player1.interact("talk");}
+    if (player1.pause == false) {
+      if (key == 37) {player1.move("left");}
+      if (key == 38) {player1.move("up");}
+      if (key == 39) {player1.move("right");}
+      if (key == 40) {player1.move("down");}
+      if (key == 84) {player1.interact("talk");}
+  }
 
   }
 }
@@ -323,6 +348,7 @@ function keyup(e) {
 
 $(document).ready(function() {
 
-  Game._intervalId = setInterval(Game.run, 1000 / Game.fps);
+
+    Game._intervalId = setInterval(Game.run, 1000 / Game.fps);
 
 })
