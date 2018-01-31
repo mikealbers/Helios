@@ -8,7 +8,7 @@ var mapLayout = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'+
 'x_________[]_______________________________[]____x'+
 'x________________________________________________x'+
 'x________________________________________________x'+
-'x____!___________________________________________x'+
+'x____!________________________x__________________x'+
 'x_______________________[]_______________________x'+
 'x________________________________________________x'+
 'x________________________________________________x'+
@@ -28,10 +28,10 @@ var mapLayout = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'+
 'x_____________________[]_________________________='+
 'x________________________________________________='+
 'x_________________________________________[]_____x'+
-'x_______!________________________________________x'+
+'x_______!___________________[]___________________x'+
 'x________________________________________________x'+
 'x________________________________________________x'+
-'x__________________________________________!_____x'+
+'x_________________________x________________!_____x'+
 'x____[]__________________________________________x'+
 'x________________________________________________x'+
 'x______________________________________[]________x'+
@@ -46,7 +46,7 @@ function Player(xCoord, yCoord, facing) {
   this.yCoord = yCoord;
   this.currentSpot = 2018;
   this.nextSpot = "";
-  this.facing = "top";
+  this.facing = "up";
   this.pause = false;
 }
 
@@ -56,16 +56,20 @@ function Robot(xCoord, yCoord, facing) {
   this.currentSpot = "";
   this.nextSpot = "";
   this.status = true;
-  this.facing = facing;
+  this.facing = "top";
   this.sight = "nothing";
+  this.nextX = xCoord;
+  this.nextX2 = xCoord-1;
+  this.nextY = yCoord;
+  this.nextY2 = yCoord;
 }
 
 var player1 = new Player(18,40, "down");
 
-var robot1 = new Robot(5,10, "top");
-var robot2 = new Robot(44,23, "top");
-var robot3 = new Robot(8,30, "top");
-var robot4 = new Robot(43,33, "top");
+var robot1 = new Robot(5,10);
+var robot2 = new Robot(44,23);
+var robot3 = new Robot(8,30);
+var robot4 = new Robot(43,33);
 
 
 
@@ -77,53 +81,106 @@ Robot.prototype.move = function() {
   $("span:nth-of-type("+spotSelector+")").css('background', 'red');
 
   if (this.sight == "nothing") {
+    //console.log(this.currentSpot);
+
+    //right
+    while (this.nextX < 48) {
+      this.nextX = this.nextX+1;
+      replaceSpot = passConvertCoordinates(this.nextX,this.yCoord);
+      if (mapLayout.charAt(replaceSpot) !== "_" && mapLayout.charAt(replaceSpot) !== "*") {
+        this.nextX = 48;
+      }
+      else {
+        mapLayout = mapLayout.replaceAt(replaceSpot, "*");
+      }
+    }
+    this.nextX = this.xCoord;
+
+    //left
+    while (this.nextX2 > 1) {
+      this.nextX2 = this.nextX2-1;
+      replaceSpot = passConvertCoordinates(this.nextX2,this.yCoord);
+      if (mapLayout.charAt(replaceSpot) !== "_" && mapLayout.charAt(replaceSpot) !== "*") {
+        this.nextX2 = 1;
+      }
+      else {
+        mapLayout = mapLayout.replaceAt(replaceSpot, "*");
+      }
+    }
+    this.nextX2 = this.xCoord;
+
+    //up
+    while (this.nextY > 1) {
+      this.nextY = this.nextY-1;
+      replaceSpot = passConvertCoordinates(this.xCoord,this.nextY);
+      if (mapLayout.charAt(replaceSpot) !== "_" && mapLayout.charAt(replaceSpot) !== "*") {
+        this.nextY = 1;
+      }
+      else {
+        mapLayout = mapLayout.replaceAt(replaceSpot, "*");
+      }
+    }
+    this.nextY = this.yCoord;
+
+    //down
+    while (this.nextY2 < 40) {
+      this.nextY2 = this.nextY2+1;
+      replaceSpot = passConvertCoordinates(this.xCoord,this.nextY2);
+      if (mapLayout.charAt(replaceSpot) !== "_" && mapLayout.charAt(replaceSpot) !== "*") {
+        this.nextY2 = 40;
+      }
+      else {
+        mapLayout = mapLayout.replaceAt(replaceSpot, "*");
+      }
+    }
+    this.nextY2 = this.yCoord;
 
   }
   else {
-    if (this.status == true) {
-      if (this.yCoord < player1.yCoord) {this.nextSpot = passConvertCoordinates(this.xCoord,this.yCoord+1)}
-      if (this.yCoord > player1.yCoord) {this.nextSpot = passConvertCoordinates(this.xCoord,this.yCoord-1)}
-      if (mapLayout.charAt(this.nextSpot) == "_") {
-        mapLayout = mapLayout.replaceAt(this.currentSpot, "_");
-        mapLayout = mapLayout.replaceAt(this.nextSpot, "!");
-        this.currentSpot = this.nextSpot;
-        this.nextSpot = "";
-        if (this.yCoord < player1.yCoord) {
-          this.yCoord = this.yCoord+1;
-          this.facing = "bottom";
-        }
-        if (this.yCoord > player1.yCoord) {
-          this.yCoord = this.yCoord-1;
-          this.facing = "top";
-        }
-        else {this.yCoord = this.yCoord}
-      } else {
-        this.status = false;
+  if (this.status == true) {
+    if (this.yCoord < player1.yCoord) {this.nextSpot = passConvertCoordinates(this.xCoord,this.yCoord+1)}
+    if (this.yCoord > player1.yCoord) {this.nextSpot = passConvertCoordinates(this.xCoord,this.yCoord-1)}
+    if (mapLayout.charAt(this.nextSpot) == "_") {
+      mapLayout = mapLayout.replaceAt(this.currentSpot, "_");
+      mapLayout = mapLayout.replaceAt(this.nextSpot, "!");
+      this.currentSpot = this.nextSpot;
+      this.nextSpot = "";
+      if (this.yCoord < player1.yCoord) {
+        this.yCoord = this.yCoord+1;
+        this.facing = "bottom";
       }
-    }
-    else {
-      if (this.xCoord < player1.xCoord) {this.nextSpot = passConvertCoordinates(this.xCoord+1,this.yCoord)}
-      if (this.xCoord > player1.xCoord) {this.nextSpot = passConvertCoordinates(this.xCoord-1,this.yCoord)}
-      if (mapLayout.charAt(this.nextSpot) == "_") {
-        mapLayout = mapLayout.replaceAt(this.currentSpot, "_");
-        mapLayout = mapLayout.replaceAt(this.nextSpot, "!");
-        this.currentSpot = this.nextSpot;
-        this.nextSpot = "";
-        if (this.xCoord < player1.xCoord) {
-          this.xCoord = this.xCoord+1;
-          this.facing = "right";
-        }
-        if (this.xCoord > player1.xCoord) {
-          this.xCoord = this.xCoord-1;
-          this.facing = "left";
-        }
-        else {this.xCoord = this.xCoord}
+      if (this.yCoord > player1.yCoord) {
+        this.yCoord = this.yCoord-1;
+        this.facing = "top";
       }
-      else {
-        this.status = true;
-      }
+      else {this.yCoord = this.yCoord}
+    } else {
+      this.status = false;
     }
   }
+  else {
+    if (this.xCoord < player1.xCoord) {this.nextSpot = passConvertCoordinates(this.xCoord+1,this.yCoord)}
+    if (this.xCoord > player1.xCoord) {this.nextSpot = passConvertCoordinates(this.xCoord-1,this.yCoord)}
+    if (mapLayout.charAt(this.nextSpot) == "_") {
+      mapLayout = mapLayout.replaceAt(this.currentSpot, "_");
+      mapLayout = mapLayout.replaceAt(this.nextSpot, "!");
+      this.currentSpot = this.nextSpot;
+      this.nextSpot = "";
+      if (this.xCoord < player1.xCoord) {
+        this.xCoord = this.xCoord+1;
+        this.facing = "right";
+      }
+      if (this.xCoord > player1.xCoord) {
+        this.xCoord = this.xCoord-1;
+        this.facing = "left";
+      }
+      else {this.xCoord = this.xCoord}
+    }
+    else {
+      this.status = true;
+    }
+  }
+}
   $("span:nth-of-type("+spotSelector+")").css('border-'+this.facing, '1px solid black');
 
 }
@@ -174,7 +231,7 @@ Player.prototype.move = function(way) {
   if (way == "up") {this.nextSpot = passConvertCoordinates(this.xCoord,this.yCoord-1);}
   if (way == "right") {this.nextSpot = passConvertCoordinates(this.xCoord+1,this.yCoord);}
   if (way == "down") {this.nextSpot = passConvertCoordinates(this.xCoord,this.yCoord+1);}
-
+  //console.log(mapLayout.charAt(this.nextSpot));
   this.facing = way;
 
   this.currentSpot = passConvertCoordinates(this.xCoord,this.yCoord);
@@ -191,7 +248,7 @@ Player.prototype.move = function(way) {
     this.nextSpot = passConvertCoordinates(this.xCoord,this.yCoord+1);
   }
 
-  if (mapLayout.charAt(this.nextSpot) !== "_") {
+  if (mapLayout.charAt(this.nextSpot) !== "_" && mapLayout.charAt(this.nextSpot) !== "*") {
     this.nextSpot = "";
   }
   else {
@@ -231,7 +288,8 @@ function drawScreen() {
     .replace(/&/g, 'n')
     .replace(/@/g, 't')
     .replace(/=/g, 'd')
-    .replace(/!/g, 'r');
+    .replace(/!/g, 'r')
+    .replace(/\*/g, 's');
 
     // console.log(map1Layout);
 

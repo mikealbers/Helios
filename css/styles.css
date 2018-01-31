@@ -49,6 +49,10 @@
   background:red;
 }
 
+.s {
+  border: 1px solid black
+}
+
 /*(/_/g, 'o')
   .replace(/\[\]/g, 'cc')
   .replace(/8/g, 'p')
