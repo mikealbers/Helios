@@ -1,9 +1,10 @@
 
 var playerShip;
 var mapBuildings = [];
+var landingPads = [];
 
 function startShipGame() {
-    playerShip = new component(30, 10, "red", 10, 10);
+    playerShip = new component(30, 10, "blue", 10, 10);
     gameWindow.start();
 }
 
@@ -116,15 +117,14 @@ function updateGameArea() {
         minHeight = 10;
         maxHeight = 200;
         height = Math.floor(Math.random()*(maxHeight-minHeight+1)+minHeight);
-        minGap = 100;
-        maxGap = 200;
-        gap = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
         mapBuildings.push(new component(50, height, "#aaa", x, y - height));
-        mapBuildings.push(new component(50, height, "#aaa", x, y - height));
-        mapBuildings.push(new component(50, height, "#yellow", x, y - height));
-        mapBuildings.push(new component(50, height, "#aaa", x, y - height));
+        landingPads.push(new component(70, (height - 350), "#666", x,y))
 
 
+    }
+    for (i = 0; i < landingPads.length; i += 1) {
+        landingPads[i].x += -3;
+        landingPads[i].update();
     }
     for (i = 0; i < mapBuildings.length; i += 1) {
         mapBuildings[i].x += -4;
