@@ -62,6 +62,8 @@ function Robot(xCoord, yCoord, facing) {
   this.nextX2 = xCoord-1;
   this.nextY = yCoord;
   this.nextY2 = yCoord;
+  this.randomStore = Math.floor(Math.random() * (4 - 1 + 1)) + 1;
+  this.randomZero = 0;
 }
 
 var player1 = new Player(18,40, "down");
@@ -71,65 +73,84 @@ var robot2 = new Robot(44,23);
 var robot3 = new Robot(8,30);
 var robot4 = new Robot(43,33);
 
+
 Robot.prototype.checkForPlayers = function() {
-  //console.log(this.currentSpot);
+  this.currentSpot = passConvertCoordinates(this.xCoord,this.yCoord);
+  var spotSelector = this.currentSpot+1;
 
+
+  if (this.randomZero < 10){
+    this.randomZero++;
+  } else {
+    this.randomStore = Math.floor(Math.random() * (4 - 1 + 1)) + 1;
+    this.randomZero = 0;
+  }
+
+  if (this.randomStore == 1) {
   //right
-  while (this.nextX < 48) {
-    this.nextX = this.nextX+1;
-    replaceSpot = passConvertCoordinates(this.nextX,this.yCoord);
-    if (mapLayout.charAt(replaceSpot) !== "_" && mapLayout.charAt(replaceSpot) !== "*") {
-      this.nextX = 48;
+    this.facing = "right";
+    while (this.nextX < 48) {
+      this.nextX = this.nextX+1;
+      replaceSpot = passConvertCoordinates(this.nextX,this.yCoord);
+      if (mapLayout.charAt(replaceSpot) !== "_" && mapLayout.charAt(replaceSpot) !== "*") {
+        this.nextX = 48;
+      }
+      else {
+        mapLayout = mapLayout.replaceAt(replaceSpot, "*");
+      }
+      if (mapLayout.charAt(replaceSpot) == 8) {this.sight="player"}
     }
-    else {
-      mapLayout = mapLayout.replaceAt(replaceSpot, "*");
-    }
-    if (mapLayout.charAt(replaceSpot) == 8) {this.sight="player"}
+    this.nextX = this.xCoord;
   }
-  this.nextX = this.xCoord;
-
-  //left
-  while (this.nextX2 > 1) {
-    this.nextX2 = this.nextX2-1;
-    replaceSpot = passConvertCoordinates(this.nextX2,this.yCoord);
-    if (mapLayout.charAt(replaceSpot) !== "_" && mapLayout.charAt(replaceSpot) !== "*") {
-      this.nextX2 = 1;
+  if (this.randomStore == 2) {
+    //left
+    this.facing = "left";
+    while (this.nextX2 > 1) {
+      this.nextX2 = this.nextX2-1;
+      replaceSpot = passConvertCoordinates(this.nextX2,this.yCoord);
+      if (mapLayout.charAt(replaceSpot) !== "_" && mapLayout.charAt(replaceSpot) !== "*") {
+        this.nextX2 = 1;
+      }
+      else {
+        mapLayout = mapLayout.replaceAt(replaceSpot, "*");
+      }
+      if (mapLayout.charAt(replaceSpot) == 8) {this.sight="player"}
     }
-    else {
-      mapLayout = mapLayout.replaceAt(replaceSpot, "*");
-    }
-    if (mapLayout.charAt(replaceSpot) == 8) {this.sight="player"}
+    this.nextX2 = this.xCoord;
   }
-  this.nextX2 = this.xCoord;
-
-  //up
-  while (this.nextY > 1) {
-    this.nextY = this.nextY-1;
-    replaceSpot = passConvertCoordinates(this.xCoord,this.nextY);
-    if (mapLayout.charAt(replaceSpot) !== "_" && mapLayout.charAt(replaceSpot) !== "*") {
-      this.nextY = 1;
+  if (this.randomStore == 3) {
+    //up
+    this.facing = "top";
+    while (this.nextY > 1) {
+      this.nextY = this.nextY-1;
+      replaceSpot = passConvertCoordinates(this.xCoord,this.nextY);
+      if (mapLayout.charAt(replaceSpot) !== "_" && mapLayout.charAt(replaceSpot) !== "*") {
+        this.nextY = 1;
+      }
+      else {
+        mapLayout = mapLayout.replaceAt(replaceSpot, "*");
+      }
+      if (mapLayout.charAt(replaceSpot) == 8) {this.sight="player"}
     }
-    else {
-      mapLayout = mapLayout.replaceAt(replaceSpot, "*");
-    }
-    if (mapLayout.charAt(replaceSpot) == 8) {this.sight="player"}
+    this.nextY = this.yCoord;
   }
-  this.nextY = this.yCoord;
-
-  //down
-  while (this.nextY2 < 40) {
-    this.nextY2 = this.nextY2+1;
-    replaceSpot = passConvertCoordinates(this.xCoord,this.nextY2);
-    if (mapLayout.charAt(replaceSpot) !== "_" && mapLayout.charAt(replaceSpot) !== "*") {
-      this.nextY2 = 40;
+  if (this.randomStore == 4) {
+    //down
+    this.facing = "bottom";
+    while (this.nextY2 < 40) {
+      this.nextY2 = this.nextY2+1;
+      replaceSpot = passConvertCoordinates(this.xCoord,this.nextY2);
+      if (mapLayout.charAt(replaceSpot) !== "_" && mapLayout.charAt(replaceSpot) !== "*") {
+        this.nextY2 = 40;
+      }
+      else {
+        mapLayout = mapLayout.replaceAt(replaceSpot, "*");
+      }
+      if (mapLayout.charAt(replaceSpot) == 8) {this.sight="player"}
     }
-    else {
-      mapLayout = mapLayout.replaceAt(replaceSpot, "*");
-    }
-    if (mapLayout.charAt(replaceSpot) == 8) {this.sight="player"}
+    this.nextY2 = this.yCoord;
   }
-  this.nextY2 = this.yCoord;
-
+  $("span:nth-of-type("+spotSelector+")").css('border-'+this.facing, '5px solid black');
 }
 
 Robot.prototype.move = function() {
@@ -183,8 +204,7 @@ Robot.prototype.move = function() {
       this.status = true;
     }
   }
-
-  $("span:nth-of-type("+spotSelector+")").css('border-'+this.facing, '1px solid black');
+  $("span:nth-of-type("+spotSelector+")").css('border-'+this.facing, '10px solid black');
 
 }
 
