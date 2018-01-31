@@ -70,9 +70,8 @@ Robot.prototype.move = function() {
 
   this.currentSpot = passConvertCoordinates(this.xCoord,this.yCoord);
 
-
   var spotSelector = this.currentSpot+1;
-  $("span:nth-of-type("+spotSelector+")").css('background', 'blue');
+  $("span:nth-of-type("+spotSelector+")").css('background', 'red');
 
   if (this.status == true) {
     if (this.yCoord < player1.yCoord) {this.nextSpot = passConvertCoordinates(this.xCoord,this.yCoord+1)}
@@ -82,8 +81,14 @@ Robot.prototype.move = function() {
       mapLayout = mapLayout.replaceAt(this.nextSpot, "!");
       this.currentSpot = this.nextSpot;
       this.nextSpot = "";
-      if (this.yCoord < player1.yCoord) {this.yCoord = this.yCoord+1;}
-      if (this.yCoord > player1.yCoord) {this.yCoord = this.yCoord-1;}
+      if (this.yCoord < player1.yCoord) {
+        this.yCoord = this.yCoord+1;
+        this.facing = "bottom";
+      }
+      if (this.yCoord > player1.yCoord) {
+        this.yCoord = this.yCoord-1;
+        this.facing = "top";
+      }
       else {this.yCoord = this.yCoord}
     } else {
       this.status = false;
@@ -97,14 +102,23 @@ Robot.prototype.move = function() {
       mapLayout = mapLayout.replaceAt(this.nextSpot, "!");
       this.currentSpot = this.nextSpot;
       this.nextSpot = "";
-      if (this.xCoord < player1.xCoord) {this.xCoord = this.xCoord+1;}
-      if (this.xCoord > player1.xCoord) {this.xCoord = this.xCoord-1;}
+      if (this.xCoord < player1.xCoord) {
+        this.xCoord = this.xCoord+1;
+        this.facing = "right";
+      }
+      if (this.xCoord > player1.xCoord) {
+        this.xCoord = this.xCoord-1;
+        this.facing = "left";
+      }
       else {this.xCoord = this.xCoord}
     }
     else {
       this.status = true;
     }
   }
+
+  $("span:nth-of-type("+spotSelector+")").css('border-'+this.facing, '1px solid black');
+
 }
 
 Player.prototype.checkForRobots = function() {
@@ -116,8 +130,7 @@ Player.prototype.checkForRobots = function() {
       mapLayout.charAt(passConvertCoordinates(this.xCoord+1,this.yCoord-1)) == "!" ||
       mapLayout.charAt(passConvertCoordinates(this.xCoord-1,this.yCoord+1)) == "!" ||
       mapLayout.charAt(passConvertCoordinates(this.xCoord-1,this.yCoord-1)) == "!") {
-    //console.log("yup");
-    //game over
+    //console.log("game over");
   }
 }
 
