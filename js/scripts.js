@@ -1,4 +1,3 @@
-
 var gameObjects = {
   playerShip: '',
   landingPads: [],
