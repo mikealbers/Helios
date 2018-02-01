@@ -6,6 +6,7 @@ html {
 body {
   height: 100%;
   width: 100%;
+  /*background-color: #fff;*/
   background-image: url("https://media.giphy.com/media/bqBGw8ukQdhEQ/source.gif");
   background-repeat: no-repeat;
   background-size: cover;

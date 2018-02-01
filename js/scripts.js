@@ -61,7 +61,7 @@ gameObjects.gameWindow = {
     removeSideScroll();
 
     $("body").css('background-image', 'none');
-    $("body").css('background', 'black');
+    // $("body").css('background', 'black');
     // setTimeout(removeSideScroll, 3000);
     Game._intervalId = setInterval(Game.run, 1000 / Game.fps);
     // var myKindOfTerminal = myTerminal ;
@@ -246,12 +246,13 @@ function drawKeypad(){
 }
 
 function showQuery(someTerminal){
+  // alert(someTerminal.type);
   var combo = "";
   var combo1 = "";
   var colors = ["red", "green", "blue", "yellow"];
   var answerColors = [];
   var myColor = -1;
-  if (someTerminal.type ==="colors") {
+  if (someTerminal.type === "colors") {
     for (var i = 0; i < someTerminal.questionArray.length; i++){
       combo += someTerminal.questionArray[i];
     }
@@ -266,6 +267,9 @@ function showQuery(someTerminal){
         $("#show"+i).css("background-color", "yellow");
       }
     }
+    // alert("Got past build");
+
+
     var myButton = '<div class="col-md-2">' +
       '<button class="btn btn-primary" name="myButton" type="button" id="myButton">Submit</button>' +
     '</div>'; // type="submit"
@@ -451,6 +455,7 @@ function talkToFolks (personObject){
       $("#people").off();
       $("#people").css("display", "none");
       $("#display").show();
+      $('#commHackWindow').hide();
       player1.pause = false;
 
 
@@ -838,7 +843,7 @@ Player.prototype.interact = function(interactWith) {
 
   if (interactWith == "talk") {
 
-
+    player1.pause = true;
     //check if space where you are facing is a npc and if so then alert or w/e
     var way = player1.facing;
 
@@ -852,11 +857,28 @@ Player.prototype.interact = function(interactWith) {
       $('#commHackWindow').show();
       $('#display').hide();
     }
-    if(mapLayout.charAt(this.nextSpot) == "t") {
-      console.log("terminal");
+    if(mapLayout.charAt(this.nextSpot) == "@") {
+      //hello
+      clearInterval(Game._intervalId);
+      alert("cleared interval");
+      var myKindOfTerminal = myTerminal ;
+      showQuery(myKindOfTerminal);
+      $('#display').hide();
+      $('#commHackWindow').show();
+      alert("test");
+      // $('#display').show();
+
     }
+    // if(mapLayout.charAt(this.nextSpot) == "@") {
+    //   console.log("terminal");
+    //   var myKindOfTerminal = myTerminal ;
+    //   showQuery(myKindOfTerminal);
+    //   $('#commHackWindow').show();
+    //   $('#display').hide();
+    // }
+     // call the Terminal object and ask its "questions."
     //console.log(this.nextSpot+" "+getConvertCoordinates(this.nextSpot));
-    player1.pause = true;
+
   }
 }
 
