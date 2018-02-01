@@ -218,67 +218,29 @@ Player.prototype.shoot = function() {
   //we'll detect if the next spot and the spot before and after are a robot
   //if a robot then make it so robot.move can't function
   //if the shot hits something then delete the bullet
-  if (this.facing == "right") {
-    console.log("right");
-    while (this.nextX < 48) {
-      this.nextX = this.nextX+1;
-      replaceSpot = passConvertCoordinates(this.nextX,this.yCoord);
-      if (mapLayout.charAt(replaceSpot) !== "_" && mapLayout.charAt(replaceSpot) !== "*") {
-        this.nextX = 48;
-      }
-      else {
-        mapLayout = mapLayout.replaceAt(replaceSpot, "b");
-      }
-      if (mapLayout.charAt(replaceSpot) == "!") {console.log("robot")}
-    }
-    this.nextX = this.xCoord;
-  }
-  if (this.facing == "left") {
-    console.log("left");
-    while (this.nextX2 > 1) {
-      this.nextX2 = this.nextX2-1;
-      replaceSpot = passConvertCoordinates(this.nextX2,this.yCoord);
-      if (mapLayout.charAt(replaceSpot) !== "_" && mapLayout.charAt(replaceSpot) !== "*") {
-        this.nextX2 = 1;
-      }
-      else {
-        mapLayout = mapLayout.replaceAt(replaceSpot, "b");
-      }
-      if (mapLayout.charAt(replaceSpot) == "!") {console.log("robot")}
-    }
-    this.nextX2 = this.xCoord;
-  }
-  if (this.facing == "up") {
-    console.log("top");
-    while (this.nextY > 1) {
-      this.nextY = this.nextY-1;
-      replaceSpot = passConvertCoordinates(this.xCoord,this.nextY);
-      if (mapLayout.charAt(replaceSpot) !== "_" && mapLayout.charAt(replaceSpot) !== "*") {
-        this.nextY = 1;
-      }
-      else {
-        mapLayout = mapLayout.replaceAt(replaceSpot, "b");
-      }
-      if (mapLayout.charAt(replaceSpot) == "!") {console.log("robot")}
-    }
-    this.nextY = this.yCoord;
-  }
-  if (this.facing == "down") {
-    console.log("bottom");
-    while (this.nextY2 < 40) {
-      this.nextY2 = this.nextY2+1;
-      replaceSpot = passConvertCoordinates(this.xCoord,this.nextY2);
-      if (mapLayout.charAt(replaceSpot) !== "_" && mapLayout.charAt(replaceSpot) !== "*") {
-        this.nextY2 = 40;
-      }
-      else {
-        mapLayout = mapLayout.replaceAt(replaceSpot, "b");
-      }
-      if (mapLayout.charAt(replaceSpot) == "!") {console.log("robot")}
-    }
-    this.nextY2 = this.yCoord;
-  }
 
+  //create a bullet object and push that to an array of objects
+  //so that the bullet can have have its own properties
+
+  
+
+
+  // if (this.facing == "right") {
+  //   console.log("right");
+  //
+  //   while (this.nextX < 48) {
+  //     this.nextX = this.nextX+1;
+  //     replaceSpot = passConvertCoordinates(this.nextX,this.yCoord);
+  //     if (mapLayout.charAt(replaceSpot) !== "_" && mapLayout.charAt(replaceSpot) !== "*") {
+  //       this.nextX = 48;
+  //     }
+  //     else {
+  //       mapLayout = mapLayout.replaceAt(replaceSpot, "b");
+  //     }
+  //     if (mapLayout.charAt(replaceSpot) == "!") {console.log("robot")}
+  //   }
+  //   this.nextX = this.xCoord;
+  // }
 
 }
 
