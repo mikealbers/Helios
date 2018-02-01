@@ -92,6 +92,7 @@ body {
   background: linear-gradient(rgb(110, 194, 79), rgb(78, 143, 54));
   /*height: 35em;*/
   padding: 2em;
+  display: none;
 }
 
 .container {
@@ -167,4 +168,76 @@ body {
   /*float:left;
   position: relative;*/
   /*font-style: oblique;*/
+}
+
+/*------------*/
+/*end commHack*/
+/*------------*/
+
+/*------------*/
+/*room CSS    */
+/*------------*/
+
+#display {
+  font-family: monospace;
+  line-height: 10px;
+  min-width: 500px;
+}
+
+.pixels {
+  height: 20px;
+  width: 20px;
+  display: inline-block;
+  margin: 0 0 0 0;
+  padding: 0 0 0 0;
+  margin-bottom: -1px;
+}
+
+.p {
+  background-size: 80%;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+
+.robot1 {
+  border: 1px solid black;
+}
+
+.down {background-image: url("../img/down.png")}
+
+.left {background-image: url("../img/left.png")}
+
+.up {background-image: url("../img/up.png")}
+
+.right {
+  background-image: url("../img/left.png");
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+}
+
+.x, .c {background:black}
+
+.t {background: purple}
+
+.n {background-color: #7fff00}
+
+.d {background:brown;}
+
+.o, .s {background: white;}
+
+.r,.z {
+  background:red;
+}
+
+.b {
+  background:pink;
+}
+
+@media screen and (max-width: 1024px){
+.pixels {
+  height: 10px;
+  width: 10px;
+}
+
 }
