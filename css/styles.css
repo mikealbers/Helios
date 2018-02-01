@@ -1,3 +1,20 @@
+html {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  height: 100%;
+  width: 100%;
+  background-image: url("https://media.giphy.com/media/bqBGw8ukQdhEQ/source.gif");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+
+/*----------------*/
+/*side scroll CSS*/
+/*--------------*/
 #cityCanvas {
   background-color: #000;
   border-style: solid;
@@ -15,27 +32,139 @@
  text-align: center;
 }
 
-h3{
-  font-family: 'Orbitron', sans-serif;
-  color: #fff;
-}
-
-h1{
+#titleLogo{
   font-family: 'Orbitron', sans-serif;
   padding-top: 80px;
   font-size: 150px;
   color: #fff;
 }
 
-html {
-  height: 100%;
-  width: 100%;
+/*------------*/
+/*commHack CSS*/
+/*------------*/
+
+#commHackWindow {
+  display: none;
 }
 
-body {
-  height: 100%;
-  width: 100%;
-  background-image: url("https://media.giphy.com/media/bqBGw8ukQdhEQ/source.gif");
-  background-repeat: no-repeat;
-  background-size: cover;
+#commHackWindow img {
+  height: 150px;
+}
+
+#colorboxes {
+  /*visibility: hidden;*/
+  display: none;
+}
+
+#question {
+  /*visibility: hidden;*/
+  display: none;
+}
+
+#keypad {
+  /*visibility: hidden;*/
+  display: none;
+}
+
+#people {
+  /*visibility: hidden;*/
+  display: none;
+}
+
+#blankLine {
+  margin: 1em;
+}
+
+#theyAsk {
+  font-weight: 900;
+}
+
+#narration {
+    margin: 20px 20px 0 0;
+    /*min-width: 200px;
+    max-width: 500px;*/
+    overflow: auto;
+    float: right;
+    position: relative;
+}
+
+.panel {
+  background: linear-gradient(rgb(110, 194, 79), rgb(78, 143, 54));
+  /*height: 35em;*/
+  padding: 2em;
+}
+
+.container {
+  /*margin-top: 20%;
+  margin-right: 15%;
+  padding: 2em;*/
+  background: linear-gradient(gray, white);
+  font-family: 'Orbitron', 'Open Sans',serif;
+  /*margin-top: 1%;
+  margin-right: 15%;
+  margin-left: 12%;
+  padding: 2em;*/
+  /*position: absolute;*/
+  /*font-size: 2em;*/
+}
+
+.well {
+  background: linear-gradient(gray, white);
+}
+
+.centerMe {
+  padding: 3em;
+}
+
+.picture {
+  float: left;
+  position: absolute;
+}
+
+.decorateMe {
+  /*margin-top: 10%;
+  margin-right: 15%;*/
+  margin: auto;
+  padding: 1em;
+  background: linear-gradient(gray, white);
+  display: none;
+}
+
+.keyA{
+  margin-top: 1em;
+  /*padding: 1em;*/
+}
+
+.colorbox {
+    border: 2px solid black;
+    margin: 5px, 5px, 5px, 5px;
+    /*padding: 1em;*/
+    width: 80px;
+    height: 70px;
+    /*background: linear-gradient(gray, white);*/
+    background-color: white;
+    text-align: center;
+    font-weight: bolder;
+    /*float:left;
+    position: relative;*/
+    /*font-style: oblique;*/
+}
+
+.moreStuff {
+  margin: 20px 40px 0 0;
+  margin-left: 15px;
+}
+
+.key {
+  border: 2px solid black;
+  margin: 5px, 5px, 5px, 5px;
+  /*padding: 1em;*/
+  width: 80px;
+  height: 70px;
+  background: linear-gradient(gray, white);
+  text-align: center;
+  font-weight: bolder;
+  /*float:left;
+  position: relative;*/
+  /*font-style: oblique;*/
 }

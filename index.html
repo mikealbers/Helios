@@ -12,7 +12,7 @@
   <body>
     <div id="titleScreen">
       <center>
-        <h1>Helios</h1>
+        <h1 id="titleLogo">Helios</h1>
         <button type="button" name="button" id="startButton">Start</button>
       </center>
 
@@ -20,7 +20,89 @@
     </div>
     <div id="sideScrollWindow">
     </div>
-    
+
+    <!--comm-hack html-->
+    <div id="commHackWindow" class="container">
+      <div class="panel">
+        <div id="colorboxes">
+          <div><h2>INPUT THE PROPER COLOR RESPONSE CODE:</h2></div>
+          <div class="centerMe">
+            <div class="row">
+              <div class="col-md-8">
+                <div id="show" class="row showClass">
+                  <div class = "col-md-2 colorbox" id="show1"></div>
+                  <div class = "col-md-2 colorbox" id="show2"></div>
+                  <div class = "col-md-2 colorbox" id="show3"></div>
+                  <div class = "col-md-2 colorbox" id="show4"></div>
+                  <div class = "col-md-2 colorbox" id="show5"></div>
+                </div>
+                <div id="blankLine" class = "row showClass"></div>
+                <div id="tell" class="row showClass">
+                  <div class = "col-md-2 colorbox" id="tell1"></div>
+                  <div class = "col-md-2 colorbox" id="tell2"></div>
+                  <div class = "col-md-2 colorbox" id="tell3"></div>
+                  <div class = "col-md-2 colorbox" id="tell4"></div>
+                  <div class = "col-md-2 colorbox" id="tell5"></div>
+                </div>
+                <div id="blankLine" class = "row showClass"></div>
+                <div id="formLine" class = "row showClass"></div>
+              </div>
+              <div class="col-md-4">
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="question">
+          <div id="ask"></div>
+          <div id="answer"></div>
+        </div>
+
+        <div id="keyEntry">
+          <div id="keypad">
+            <div class="row">
+              <div class = "col-md-3 key" id="1"></div>
+              <div class = "col-md-3 key" id="2"></div>
+              <div class = "col-md-3 key" id="3"></div>
+            </div>
+            <div class="row">
+              <div class = "col-md-3 key" id="4"></div>
+              <div class = "col-md-3 key" id="5"></div>
+              <div class = "col-md-3 key" id="6"></div>
+            </div>
+            <div class="row">
+              <div class = "col-md-3 key" id="7"></div>
+              <div class = "col-md-3 key" id="8"></div>
+              <div class = "col-md-3 key" id="9"></div>
+            </div>
+          </div>
+          <div id="entry">
+          </div>
+        </div><!-- end key entry -->
+        <div id="people" class="decorateMe row">
+          <div class="row">
+            <div id="picture" class="col-md-3"></div>
+            <div id="narration" class="col-md-7"></div>
+          </div>
+          <div class = "row ">
+            <div id="theyAsk" class="moreStuff row"></div>
+            <div id="youAnswer" class="moreStuff row"></div>
+          </div>
+          <div class="row">
+            <div id="theyReply" class="moreStuff row"></div>
+          </div>
+
+          <!-- <div class = "row ">
+
+          </div> -->
+        </div>
+      </div><!-- end panel -->
+    </div>
+
+    <!--end comm hack-->
+
+
 
   </body>
 </html>
