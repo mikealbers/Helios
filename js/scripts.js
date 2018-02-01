@@ -1,5 +1,6 @@
-
-
+//-------------------------------------------
+// All variable used by each set of game code
+//-------------------------------------------
 var gameObjects = {
   playerShip: '',
   landingPads: [],
@@ -45,6 +46,10 @@ gameObjects.gameWindow = {
     setTimeout(startShipGame, 1000);
     $(this.canvas).delay(1000).fadeIn();
   },
+  //---------------------------------
+  //Transition function for ship game
+  //hello
+  //--------------------------------
   land : function() {
     clearInterval(this.interval);
     $(this.canvas).fadeOut(0);
@@ -54,6 +59,9 @@ gameObjects.gameWindow = {
     window.removeEventListener('keyup', function(){});
     }
     removeSideScroll();
+
+    $("body").css('background-image', 'none');
+    $("body").css('background', 'black');
     // setTimeout(removeSideScroll, 3000);
     Game._intervalId = setInterval(Game.run, 1000 / Game.fps);
     // var myKindOfTerminal = myTerminal ;
@@ -61,6 +69,9 @@ gameObjects.gameWindow = {
     // talkToFolks(gameObjects.dudes[0]);
     $('#commHackWindow').show();
   }
+  //---------------------------------
+  //End function for transition
+  //--------------------------------
 }
 
 function component(width, height, color, x, y, type) {
@@ -435,9 +446,14 @@ function talkToFolks (personObject){
       $("#theyReply").html("<strong><p>" +  newString2 + "</p></strong>");
     }
     if (myKey === 52) {
+      //hello
       exit = true;
       $("#people").off();
-        $("#people").css("display", "none");
+      $("#people").css("display", "none");
+      $("#display").show();
+      player1.pause = false;
+
+
       return;
     }
   } // end of function
@@ -830,7 +846,12 @@ Player.prototype.interact = function(interactWith) {
     if (way == "up") {this.nextSpot = passConvertCoordinates(this.xCoord,this.yCoord-1);}
     if (way == "right") {this.nextSpot = passConvertCoordinates(this.xCoord+1,this.yCoord);}
     if (way == "down") {this.nextSpot = passConvertCoordinates(this.xCoord,this.yCoord+1);}
-    if(mapLayout.charAt(this.nextSpot) == "&") {console.log("hello");}
+    if(mapLayout.charAt(this.nextSpot) == "&") {
+      //hello
+      talkToFolks(gameObjects.dudes[0]);
+      $('#commHackWindow').show();
+      $('#display').hide();
+    }
     if(mapLayout.charAt(this.nextSpot) == "t") {
       console.log("terminal");
     }
