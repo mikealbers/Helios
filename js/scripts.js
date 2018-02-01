@@ -43,8 +43,11 @@ gameObjects.gameWindow = {
   stop : function() {
     clearInterval(this.interval);
     $(this.canvas).fadeOut();
-    setTimeout(startShipGame, 1000);
-    $(this.canvas).delay(1000).fadeIn();
+    $(".test").show();
+    $(".test").html("Game Over");
+    // $('.test').delay(1000).hide();
+    // setTimeout(startShipGame, 1000);
+    // $(this.canvas).delay(1000).fadeIn();
   },
   //---------------------------------
   //Transition function for ship game
@@ -61,7 +64,7 @@ gameObjects.gameWindow = {
     removeSideScroll();
 
     $("body").css('background-image', 'none');
-    // $("body").css('background', 'black');
+     $("body").css('background', 'black');
     // setTimeout(removeSideScroll, 3000);
     Game._intervalId = setInterval(Game.run, 1000 / Game.fps);
     // var myKindOfTerminal = myTerminal ;
@@ -292,6 +295,11 @@ function showQuery(someTerminal){
         $('#colorboxes').unbind();
         $('#myButton').unbind();
         alert("You solved the code! " + gameObjects.access);
+        //hello
+        $('.panel').hide();
+        $('#display').show();
+        player1.pause = false;
+        player1.disableAllRobots = true;
         return;
       } else {
         alert("You have failed!");
@@ -833,8 +841,12 @@ Player.prototype.checkForRobots = function() {
       mapLayout.charAt(passConvertCoordinates(this.xCoord+1,this.yCoord)) == "!" ||
       mapLayout.charAt(passConvertCoordinates(this.xCoord-1,this.yCoord)) == "!") {
     //console.log("game over");
-    $(".test").html("game over");
+    //game over
+    $(".test").show();
+    $(".test").html("Game Over");
+    clearInterval(Game._intervalId);
   } else {
+    $(".test").hide();
     $(".test").html("");
   }
 }
@@ -859,10 +871,11 @@ Player.prototype.interact = function(interactWith) {
     }
     if(mapLayout.charAt(this.nextSpot) == "@") {
       //hello
-      clearInterval(Game._intervalId);
+      // clearInterval(Game._intervalId);
       var myKindOfTerminal = myTerminal ;
       showQuery(myKindOfTerminal);
       $('#display').hide();
+      $('#commHackWindow').show();
       $('.panel').show();
       // $('#display').show();
 
