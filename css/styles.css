@@ -14,22 +14,28 @@
 #titleScreen {
  text-align: center;
 }
+
+h3{
+  font-family: 'Orbitron', sans-serif;
+  color: #fff;
+}
+
 h1{
   font-family: 'Orbitron', sans-serif;
   padding-top: 80px;
   font-size: 150px;
+  color: #fff;
 }
+
 html {
   height: 100%;
   width: 100%;
 }
+
 body {
   height: 100%;
   width: 100%;
   background-image: url("https://media.giphy.com/media/bqBGw8ukQdhEQ/source.gif");
   background-repeat: no-repeat;
   background-size: cover;
-}
-h1{
-  color: white;
 }

@@ -1,12 +1,14 @@
 
-var playerShip;
-var landingPads = [];
-var mapBuildings = [];
-var backgroundBuildings = [];
+var gameObjects = {
+  playerShip: '',
+  landingPads: [],
+  mapBuildings: [],
+  backgroundBuildings: [],
+};
 
 
 function startShipGame() {
-  playerShip = new component(60, 40, "img/ship.gif", 10, 10, "image");
+  gameObjects.playerShip = new component(60, 40, "img/ship.gif", 10, 10, "image");
   gameWindow.start();
 }
 
@@ -41,7 +43,9 @@ var gameWindow = {
     clearInterval(this.interval);
     $(this.canvas).fadeOut(3000);
     function removeSideScroll() {
-      $('#sideScrollWindow').html('');
+    $('#sideScrollWindow').html('');
+    window.removeEventListener('keydown', function(){});
+    window.removeEventListener('keyup', function(){});
     }
     setTimeout(removeSideScroll, 3000);
   }
@@ -104,14 +108,14 @@ function updateGameArea() {
   var x, height, gap, minHeight, maxHeight, minGap, maxGap;
   var interval =  Math.floor(Math.random() * 1.2);
   var slowInterval = Math.floor(Math.random() * .8);
-  for (i = 0; i < mapBuildings.length; i += 1) {
-    if (playerShip.crashWith(mapBuildings[i])) {
+  for (i = 0; i < gameObjects.mapBuildings.length; i += 1) {
+    if (gameObjects.playerShip.crashWith(gameObjects.mapBuildings[i])) {
         gameWindow.stop();
         return;
     }
   }
-  for (i = 0; i < landingPads.length; i += 1) {
-    if (playerShip.crashWith(landingPads[i])) {
+  for (i = 0; i < gameObjects.landingPads.length; i += 1) {
+    if (gameObjects.playerShip.crashWith(gameObjects.landingPads[i])) {
         gameWindow.land();
         return;
     }
@@ -122,7 +126,7 @@ function updateGameArea() {
     x = gameWindow.canvas.width;
     y = gameWindow.canvas.height
 
-    landingPads.push(new component(80, 220, "img/building3.png", x, y - 220, "image"));
+    gameObjects.landingPads.push(new component(80, 220, "img/building3.png", x, y - 220, "image"));
   }
   if (gameWindow.frameNo == 1 || everyinterval(interval)) {
     x = gameWindow.canvas.width;
@@ -131,30 +135,30 @@ function updateGameArea() {
     minHeight = 10;
     maxHeight = 210;
     height = Math.floor(Math.random()*(maxHeight-minHeight+1)+minHeight);
-    mapBuildings.push(new component(100, height + 30, "img/building1.png", x - 30, y - height, "image"));
-    // backgroundBuildings.push(new component(70, (height - 350), "#666", x,y))
+    gameObjects.mapBuildings.push(new component(100, height + 30, "img/building1.png", x - 30, y - height, "image"));
+    // gameObjects.backgroundBuildings.push(new component(70, (height - 350), "#666", x,y))
   }
 
-  for (i = 0; i < landingPads.length; i += 1) {
-      landingPads[i].x += -4;
-      landingPads[i].update();
+  for (i = 0; i < gameObjects.landingPads.length; i += 1) {
+      gameObjects.landingPads[i].x += -4;
+      gameObjects.landingPads[i].update();
   }
-  for (i = 0; i < backgroundBuildings.length; i += 1) {
-      backgroundBuildings[i].x += -2;
-      backgroundBuildings[i].update();
+  for (i = 0; i < gameObjects.backgroundBuildings.length; i += 1) {
+      gameObjects.backgroundBuildings[i].x += -2;
+      gameObjects.backgroundBuildings[i].update();
   }
-  for (i = 0; i < mapBuildings.length; i += 1) {
-      mapBuildings[i].x += -4;
-      mapBuildings[i].update();
+  for (i = 0; i < gameObjects.mapBuildings.length; i += 1) {
+      gameObjects.mapBuildings[i].x += -4;
+      gameObjects.mapBuildings[i].update();
   }
-  playerShip.speedX = 0;
-  playerShip.speedY = 0;
-  if (gameWindow.keys && gameWindow.keys[65]) {playerShip.speedX = -5; }
-  if (gameWindow.keys && gameWindow.keys[68]) {playerShip.speedX = 5; }
-  if (gameWindow.keys && gameWindow.keys[87]) {playerShip.speedY = -5; }
-  if (gameWindow.keys && gameWindow.keys[83]) {playerShip.speedY = 5; }
-  playerShip.newPos();
-  playerShip.update();
+  gameObjects.playerShip.speedX = 0;
+  gameObjects.playerShip.speedY = 0;
+  if (gameWindow.keys && gameWindow.keys[65]) {gameObjects.playerShip.speedX = -5; }
+  if (gameWindow.keys && gameWindow.keys[68]) {gameObjects.playerShip.speedX = 10; }
+  if (gameWindow.keys && gameWindow.keys[87]) {gameObjects.playerShip.speedY = -5; }
+  if (gameWindow.keys && gameWindow.keys[83]) {gameObjects.playerShip.speedY = 5; }
+  gameObjects.playerShip.newPos();
+  gameObjects.playerShip.update();
   // console.log(gameWindow.frameNo);
 }
 
