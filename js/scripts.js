@@ -169,10 +169,9 @@ function everyinterval(n) {
 }
 
 $(document).ready(function() {
-
-$("#startButton").click(function(event){
-  event.preventDefault();
-  $("#titleScreen").hide();
-  startShipGame();
-});
+  $("#startButton").click(function(event){
+    event.preventDefault();
+    $("#titleScreen").hide();
+    startShipGame();
+  });
 })
