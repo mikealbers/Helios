@@ -213,7 +213,16 @@ Robot.prototype.move = function() {
 
 }
 
+var bullets = [];
+var bulletsNumber = 0;
+
+function Bullet(xCoord, yCoord) {}
+
 Player.prototype.shoot = function() {
+
+  bullets[bulletsNumber] = new Bullet(1,2);
+  bulletsNumber = bulletsNumber + 1;
+
   //curent spot
   //we'll detect if the next spot and the spot before and after are a robot
   //if a robot then make it so robot.move can't function
@@ -222,7 +231,14 @@ Player.prototype.shoot = function() {
   //create a bullet object and push that to an array of objects
   //so that the bullet can have have its own properties
 
-  
+  //every time you press space it creates and pushes a bullet object with its properties to the bullets array
+  //the bullet comes from your location of firing and moves where the player was originally facing
+  //so change the spot in front of where the player was facing to a bullet and move forwards till striking something
+  //if a robot then deactivate that specific robot
+
+
+
+
 
 
   // if (this.facing == "right") {
