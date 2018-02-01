@@ -860,12 +860,10 @@ Player.prototype.interact = function(interactWith) {
     if(mapLayout.charAt(this.nextSpot) == "@") {
       //hello
       clearInterval(Game._intervalId);
-      alert("cleared interval");
       var myKindOfTerminal = myTerminal ;
       showQuery(myKindOfTerminal);
       $('#display').hide();
-      $('#commHackWindow').show();
-      alert("test");
+      $('.panel').show();
       // $('#display').show();
 
     }
