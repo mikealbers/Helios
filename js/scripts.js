@@ -855,7 +855,7 @@ Player.prototype.interact = function(interactWith) {
 
   if (interactWith == "talk") {
 
-    player1.pause = true;
+
     //check if space where you are facing is a npc and if so then alert or w/e
     var way = player1.facing;
 
@@ -865,12 +865,14 @@ Player.prototype.interact = function(interactWith) {
     if (way == "down") {this.nextSpot = passConvertCoordinates(this.xCoord,this.yCoord+1);}
     if(mapLayout.charAt(this.nextSpot) == "&") {
       //hello
+      player1.pause = true;
       talkToFolks(gameObjects.dudes[0]);
       $('#commHackWindow').show();
       $('#display').hide();
     }
     if(mapLayout.charAt(this.nextSpot) == "@") {
       //hello
+      player1.pause = true;
       // clearInterval(Game._intervalId);
       var myKindOfTerminal = myTerminal ;
       showQuery(myKindOfTerminal);
@@ -878,17 +880,18 @@ Player.prototype.interact = function(interactWith) {
       $('#commHackWindow').show();
       $('.panel').show();
       // $('#display').show();
-
     }
-    // if(mapLayout.charAt(this.nextSpot) == "@") {
-    //   console.log("terminal");
+    // if(mapLayout.charAt(this.nextSpot) == "=") {
+    //   //hello
+    //   player1.pause = true;
+    //   // clearInterval(Game._intervalId);
     //   var myKindOfTerminal = myTerminal ;
     //   showQuery(myKindOfTerminal);
-    //   $('#commHackWindow').show();
     //   $('#display').hide();
+    //   $('#commHackWindow').show();
+    //   $('.panel').show();
+    //   // $('#display').show();
     // }
-     // call the Terminal object and ask its "questions."
-    //console.log(this.nextSpot+" "+getConvertCoordinates(this.nextSpot));
 
   }
 }
