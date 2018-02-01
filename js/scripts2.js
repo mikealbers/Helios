@@ -239,7 +239,7 @@ Player.prototype.shoot = function() {
   //bulletsNumber = bulletsNumber + 1;
 
   // console.log(bullets[0].xCoord);
-  //
+  //test
   if (bullets[bulletsNumber].facing == "right") {
     while (bullets[bulletsNumber].nextX < 48) {
       // console.log(bullets[bulletsNumber].nextX);
