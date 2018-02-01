@@ -276,7 +276,7 @@ Player.prototype.interact = function(interactWith) {
 
   if (interactWith == "talk") {
 
-    player1.pause = true;
+
     //check if space where you are facing is a npc and if so then alert or w/e
     var way = player1.facing;
 
@@ -287,9 +287,9 @@ Player.prototype.interact = function(interactWith) {
     if(mapLayout.charAt(this.nextSpot) == "&") {console.log("hello");}
     if(mapLayout.charAt(this.nextSpot) == "t") {
       console.log("terminal");
-
     }
     //console.log(this.nextSpot+" "+getConvertCoordinates(this.nextSpot));
+    player1.pause = true;
   }
 }
 
