@@ -256,3 +256,17 @@ body {
 }
 
 }
+
+#win {
+  font-family: 'Orbitron', 'Open Sans',serif;
+  font-size: 5em;
+  position: absolute;
+  z-index: 10;
+  background: grey;
+  height: 100%;
+  width: 100%;
+  top: 0px;
+  display:none;
+  color: white;
+  padding-top: 50px;
+}

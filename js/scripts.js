@@ -881,17 +881,12 @@ Player.prototype.interact = function(interactWith) {
       $('.panel').show();
       // $('#display').show();
     }
-    // if(mapLayout.charAt(this.nextSpot) == "=") {
-    //   //hello
-    //   player1.pause = true;
-    //   // clearInterval(Game._intervalId);
-    //   var myKindOfTerminal = myTerminal ;
-    //   showQuery(myKindOfTerminal);
-    //   $('#display').hide();
-    //   $('#commHackWindow').show();
-    //   $('.panel').show();
-    //   // $('#display').show();
-    // }
+    if(mapLayout.charAt(this.nextSpot) == "=" && gameObjects.access == true) {
+      // clearInterval(Game._intervalId);
+      $('#display').hide();
+      $('#win').show();
+      // $('#display').show();
+    }
 
   }
 }
