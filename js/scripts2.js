@@ -216,47 +216,47 @@ Robot.prototype.move = function() {
 var bullets = [];
 var bulletsNumber = 0;
 
-function Bullet(xCoord, yCoord) {}
+function Bullet(xCoord, yCoord, facing) {
+  this.xCoord = xCoord;
+  this.yCoord = yCoord;
+  this.facing = facing;
+  this.nextX = this.xCoord;
+  this.nextY = this.xCoord;
+}
+
+Bullet.prototype.changeX = function() {this.xCoord = player1.xCoord}
+Bullet.prototype.changeY = function() {this.yCoord = player1.yCoord}
+Bullet.prototype.changeFacing = function() {this.facing = player1.facing}
+
+var moveCount = 0;
 
 Player.prototype.shoot = function() {
 
-  bullets[bulletsNumber] = new Bullet(1,2);
-  bulletsNumber = bulletsNumber + 1;
+  bullets[bulletsNumber] = new Bullet(this.xCoord, 2, "up");
+  bullets[bulletsNumber].changeX();
+  bullets[bulletsNumber].changeY();
+  bullets[bulletsNumber].changeFacing();
+  //bulletsNumber = bulletsNumber + 1;
 
-  //curent spot
-  //we'll detect if the next spot and the spot before and after are a robot
-  //if a robot then make it so robot.move can't function
-  //if the shot hits something then delete the bullet
+  // console.log(bullets[0].xCoord);
 
-  //create a bullet object and push that to an array of objects
-  //so that the bullet can have have its own properties
+  if (bullets[bulletsNumber].facing == "right") {
+    while (bullets[bulletsNumber].nextX < 48) {
+      // console.log(bullets[bulletsNumber].nextX);
+      bullets[bulletsNumber].nextX = bullets[bulletsNumber].nextX+2;
+      replaceSpot = passConvertCoordinates(bullets[bulletsNumber].nextX,this.yCoord);
+      replacePrevious = replaceSpot;
+      if (mapLayout.charAt(replaceSpot) !== "_" && mapLayout.charAt(replaceSpot) !== "*") {
+        bullets[bulletsNumber].nextX = 48;
+      }
+      else {
+        mapLayout = mapLayout.replaceAt(replaceSpot, "b");
+        //mapLayout = mapLayout.replaceAt(replacePrevious, "_");
+      }
+    }
+    bullets[bulletsNumber].nextX = bullets[bulletsNumber].xCoord;
+  }
 
-  //every time you press space it creates and pushes a bullet object with its properties to the bullets array
-  //the bullet comes from your location of firing and moves where the player was originally facing
-  //so change the spot in front of where the player was facing to a bullet and move forwards till striking something
-  //if a robot then deactivate that specific robot
-
-
-
-
-
-
-  // if (this.facing == "right") {
-  //   console.log("right");
-  //
-  //   while (this.nextX < 48) {
-  //     this.nextX = this.nextX+1;
-  //     replaceSpot = passConvertCoordinates(this.nextX,this.yCoord);
-  //     if (mapLayout.charAt(replaceSpot) !== "_" && mapLayout.charAt(replaceSpot) !== "*") {
-  //       this.nextX = 48;
-  //     }
-  //     else {
-  //       mapLayout = mapLayout.replaceAt(replaceSpot, "b");
-  //     }
-  //     if (mapLayout.charAt(replaceSpot) == "!") {console.log("robot")}
-  //   }
-  //   this.nextX = this.xCoord;
-  // }
 
 }
 
