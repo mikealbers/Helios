@@ -1,12 +1,35 @@
 #cityCanvas {
-  background: #000;
+  background-color: #000;
   border-style: solid;
   border-color: #000;
   max-width: 90%;
-  max-height: 70%;
+  max-height: 50%;
   width: 70%;
   margin: 1em;
-  margin-right: 10%;
+  margin-right: 20%;
+  margin-left: 20%;
   padding: 10px;
+}
 
+#titleScreen {
+ text-align: center;
+}
+h1{
+  font-family: 'Orbitron', sans-serif;
+  padding-top: 80px;
+  font-size: 150px;
+}
+html {
+  height: 100%;
+  width: 100%;
+}
+body {
+  height: 100%;
+  width: 100%;
+  background-image: url("https://media.giphy.com/media/bqBGw8ukQdhEQ/source.gif");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+h1{
+  color: white;
 }
