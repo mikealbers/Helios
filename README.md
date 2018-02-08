@@ -13,7 +13,7 @@ _This is the Team Project for Week Five of Intro to Programming at Epicodus_
 
 _You can find the files at https://www.github.com/mikealbers/helios
 
-_Game is also hosted at https://github.com/mikealbers/Helios/tree/gh-pages
+_Game is also hosted at https://mikealbers.github.io/Helios/
 
 ## Ship Exploration Module:
 
