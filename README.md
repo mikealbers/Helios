@@ -19,7 +19,7 @@ _Game is also hosted at https://mikealbers.github.io/Helios/
 
 ### METHODOLOGY
 
-_Create a game window with a player ship and buildings to land on with the HTML cancas element and manipulating them with JS_
+_Create a game window with a player ship and buildings to land on with the HTML canvas element and manipulating them with JS_
 
 ### IMPLEMENTATION SPECS
 
